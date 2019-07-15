@@ -16,7 +16,7 @@
 </head>
 
 <body class="container">
-    <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color2)">
+    <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
         <li class="nav-item">
             <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
         </li>
@@ -33,9 +33,11 @@
 
     <div class='tab-content' id="myContent">
         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+            <h1>Temitope Alaga</h1>
 
             <div class="row">
-                <div class="col">
+                <div class="col" style="border: 1vmin solid var(--theme-color1)">
+                    
                     <ul class="nav nav-tabs nav-justified flex-column" id="myTabs2" role="tablist">
                         <li class="nav-item active">
                             <a class="nav-link active" id="experience-tab" data-toggle="tab" href="#experience" role="tab" aria-controls="experience" aria-selected="true">
@@ -127,6 +129,47 @@
             <a href="https://github.com/Temdog007" target="_blank">
                 <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" class="img-fluid" alt="Github">
             </a>
+        </div>
+
+        <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab" style="height: 100%">
+            <iframe src="resume_03_11_2019.pdf"></iframe>
+        </div>
+
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="row">
+                <div class="col col-log-2">
+                    <h1>Contact Me</h1>
+                </div>
+                <div class="col-md-auto">
+                    <a href="https://www.linkedin.com/in/temitope-alaga-62933896/" target="_blank">
+                        <img class="img-responsive" alt="LinkedIn" src="images/220px-Linkedin.svg.png">
+                    </a>
+                </div>
+            </div>
+            
+            <form action="mailto:temdog007@yahoo.com" enctype="text/plain" method="post">
+                <div class="form-group">
+                    <label for="fname">First Name</label>
+                    <input type="text" id="fname" name="firstname" placeholder="Your first name.." class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input type="text" id="lname" name="lastname" placeholder="Your last name.." class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <textarea id="subject" name="subject" placeholder="Write subject here..." class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Write message here..." class="form-control"></textarea>
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </div>
 </body>
