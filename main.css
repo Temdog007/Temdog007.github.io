@@ -12,7 +12,6 @@
 }
 
 #myContent {
-    margin-top : 10vh;
     background-color: var(--theme-color2);
 }
 
@@ -55,11 +54,11 @@ a:focus, a:hover, .nav-link:hover {
     background-color: var(--theme-color7);
 }
 
-li img {
+img {
     max-width: 12.25vw;
     max-height: 12.25vh;
 }
 
 ul {
-    list-style-type: circle
+    list-style-type: none
 }
