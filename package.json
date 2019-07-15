@@ -1,0 +1,17 @@
+{
+  "name": "temitope-alaga-portfolio",
+  "version": "1.0.0",
+  "description": "Temitope Alaga's portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0"
+  }
+}

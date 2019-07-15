@@ -1,0 +1,56 @@
+
+* {
+    --theme-color1 : #efebe9;
+    --theme-color2 : #d7ccc8;
+    --theme-color3 : #bcaaa4;
+    --theme-color4 : #a1887f;
+    --theme-color5 : #8d6e63;
+    --theme-color6 : #795548;
+    --theme-color7 : #6d4c41;
+    --theme-color8 : #4e342e;
+    --theme-color9 : #3e2723;
+}
+
+.tab-content {
+    margin-top : 10vh;
+    background-color: var(--theme-color2);
+}
+
+.tab-content * {
+    padding: 1vmin;
+}
+
+.tab-content b, .tab-content i, .tab-content u {
+    padding: 0;
+}
+
+h1, h2, h3, p {
+    color: var(--theme-color9);
+    padding-bottom: 1vh;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+body {
+    background-color: var(--theme-color1);
+    padding-top: 1vh;
+}
+
+a, .nav-link {
+    color : var(--theme-color4);
+}
+
+.nav-link {
+    padding: 1vmin;
+}
+
+a:focus, a:hover, .nav-link:hover {
+    color: var(--theme-color9);
+}
+
+.nav-tabs .nav-link.active {
+    color : var(--theme-color4);
+    background-color: var(--theme-color7);
+}
