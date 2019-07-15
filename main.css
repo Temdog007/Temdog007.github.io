@@ -11,7 +11,7 @@
     --theme-color9 : #3e2723;
 }
 
-.tab-content {
+#myContent {
     margin-top : 10vh;
     background-color: var(--theme-color2);
 }
@@ -53,4 +53,13 @@ a:focus, a:hover, .nav-link:hover {
 .nav-tabs .nav-link.active {
     color : var(--theme-color4);
     background-color: var(--theme-color7);
+}
+
+li img {
+    max-width: 12.25vw;
+    max-height: 12.25vh;
+}
+
+ul {
+    list-style-type: circle
 }
