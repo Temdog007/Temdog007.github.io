@@ -62,3 +62,7 @@ img {
 ul {
     list-style-type: none
 }
+
+#myTabs2, #myTabs2 li {
+    padding: 0;
+}
