@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<title>TemScript Functions Rule 4</title>
+<title>TemScript Struct Rule 4</title>
 
 <html lang="en">
 <head>
@@ -39,36 +39,26 @@
         </li>
     </ul>
     
-    <h1>All functions can accept a sequence of its parameters</h1>
+    <h1>There are no struct methods. Only extensions for interfaces.</h1>
 
     <pre>
-        void PrintArgs(int x, byte y, string s) => print(x, y, s);
+        interface IFoo
+        {
+            int x;
+        }
+        void PrintFoo(IFoo f) => print(f.x);
+        void AddFoo(IFoo f, int x) => f.x + x;
+        void AddFoo(IFoo f1, IFoo f2) => f1.x + f2.x;
 
-        PrintArgs(0, 1, "first", 4, 2, "second", 5 2, "third", 345, 254, "fourth");
+        var foo = default(IFoo);
+        foo.Print(); // same as PrintFoo(f);
+        foo.Add(); // same as AddFoo(f);
+        foo.Add(default(IFoo)); // same as AddFoo(foo, default(IFoo));
     </pre>
 
     <h3>Reasoning</h3>
     <p>
-        Prevents the needs for writing the function multiple times. This can be short-cutted further
-        by using interfaces.
+        This allows for interfaces to have extended functionality without having to change the definition.
     </p>
-    <pre>
-        void PrintArgs(int x, byte y, string s) => print(x, y, s);
-
-        interface Foo 
-        {
-            int x;
-            byte y;
-            string s;
-        }
-
-        PrintArgs(Foo(0, 1, "first"), 4, 2, "second", Foo(5, 2, "third"), 345, 254, "fourth");
-
-        // Notice that the arguments can either be an interface or the values
-        // The above is equivalent to:
-        var foo1 = Foo(0, 1, "first");
-        var foo2 = Foo(5, 2, "third");
-        PrintArgs(foo1.x, foo1.y, foo1.s, 4, 2, "second", foo2.x, foo2.y, foo2.s, 345, 254, "fourth");
-    </pre>
 </body>
 </html>

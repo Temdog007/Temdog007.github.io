@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<title>TemScript Background</title>
+<title>TemScript Struct Rule 1</title>
 
 <html lang="en">
 <head>
@@ -47,6 +47,9 @@
             int x;
         }
         void UseFoo(IFoo f) => {}
+
+        var foo = default(IFoo);
+        UseFoo(foo);
 
         struct Foo : IFoo
         {
