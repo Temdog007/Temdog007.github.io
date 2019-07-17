@@ -88,3 +88,15 @@ input[type='submit']:hover{
     color: var(--theme-color1);
     background-color: var(--theme-color9)
 }
+
+table, th, td {
+    border: 1vmin solid var(--theme-color7)
+}
+
+th {
+    background-color: var(--theme-color4)
+}
+
+td {
+    padding : 1vmin;
+}
