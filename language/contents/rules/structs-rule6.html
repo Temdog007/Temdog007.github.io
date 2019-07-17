@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<title>TemScript Struct Rule 1</title>
+<title>TemScript Struct Rule 6</title>
 
 <html lang="en">
 <head>
@@ -39,63 +39,40 @@
         </li>
     </ul>
     
-    <h1>All structs must implement an interface</h1>
+    <h1>All associated struct values must be fields.</h1>
 
     <pre>
         interface IFoo
         {
-            int x;
+            int alwaysEvent;
         }
-        void UseFoo(IFoo f) => {}
-
-        var foo = default(IFoo);
-        UseFoo(foo);
+        void CheckIfEven(IFoo f, int newValue) => newValue % 2 == 0;
+        void OnAfterSet(IFoo f, int newValue) => print("Foo was set to {0}", newValue);
 
         struct Foo : IFoo
         {
-            int x;
-        }
-        UseFoo(Foo());
-
-        // Since no interface is explicitly stated, all interfaces defined in the project will be
-        // matched against this struct to see which interfaces it implements. In this case, it will match with IFoo.
-        // Other fields are considered 'private.'
-        struct Foo2
-        {
-            int x;
-            int y;
-            string k;
-            int[] r;
-        }
-        UseFoo(Foo2());
-
-        interface IFoo2
-        {
-            string s;
+            @beforeSet(CheckIfEven) // This function is called before setting the value. If returns false, then the value is not set.
+            @afterSet(OnAfterSet) // This function is called after setting the value.
+            int alwaysEvent;
         }
 
-        // This will not automatically implement IFoo since there is an interface stated.
-        struct Foo3 : IFoo2
-        {
-            int x;
-            string s;
-        }
-        UseFoo(Foo3()); // This will give an error
+        var foo = Foo();
+        foo.alwaysEvent = 2;
 
-        // This will automatically implement IFoo because of the @auto annonation
-        @auto
-        struct Foo4 : IFoo2
-        {
-            int x;
-            string s;
-        }
-        UseFoo(Foo4()));
-        
+        foo.alwaysEvent = 5; // This is the same as:
+        /*
+            if(CheckIfEven(foo, 5))
+            {
+                foo.alwaysEven = 5;
+                OnAfterSet(foo, 5);
+            }
+        */
+        print(foo.alwaysEvent); // will print 2
     </pre>
 
     <h3>Reasoning</h3>
     <p>
-        Functions cannot take structs as parameters. Only interfaces. So, structs must implement an interface to be usuable.
+        Prevent the need for creating getters/setter pre-emptively.
     </p>
 </body>
 </html>
