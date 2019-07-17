@@ -17,6 +17,9 @@
         h1 {
             text-align : left;
         }
+        table {
+            margin-bottom: 5vmin;
+        }
     </style>
 </head>
 
@@ -36,31 +39,57 @@
         </li>
     </ul>
     
-    <h1>Functions may not take a class as a parameter</h1>
-    <table>
-        <tr>
-            <th>Example</th>
-            <th>Correctness</th>
-        </tr>
-        <tr>
-            <td>
-                class Foo { int x; } <br>
-                int returnFoo(Foo f) => f.x;
-            </td>
-            <td>
-                Wrong
-            </td>
-        </tr>
-        <tr>
-            <td>
-                interface IFoo { int x; /* always read only */ }<br>
-                class Foo : IFoo { int x; }<br>
-                int returnFoo(IFoo f) => f.x;
-            </td>
-            <td>
-                Right
-            </td>
-        </tr>
-    </table>
+    <h1>Functions may not take a struct as a parameter</h1>
+
+    <pre>
+        interface IFoo
+        {
+            int x;
+        }
+
+        struct Foo 
+        {
+            int x; 
+        }
+
+        // void PrintFoo(Foo f) => print(f.x); // wrong
+        void PrintFoo(IFoo f) => print(f.x); // right
+
+        var foo = new Foo();
+        PrintFoo(foo);
+    </pre>
+
+    <h3>Reasoning</h3>
+    <p>
+        Forcing interfaces to be used allows for functions to have more uses. For example, if another new struct happens to implement 
+        that interface, it can be used as a parameter to call that function.
+    </p>
+    <pre>
+        interface IFoo
+        {
+            int x;
+        }
+
+        struct Foo : IFoo
+        {
+            int x;
+        }
+
+        struct Foo2 : IFoo
+        {
+            int x;
+            int y;
+            string s;
+        }
+
+        // Structs - Rule 1
+        struct Foo3 
+        {
+            int x; 
+        }
+
+        // Functions - Rule 4
+        PrintFoo(new Foo(), new Foo2(), new Foo3());
+    </pre>
 </body>
 </html>

@@ -46,33 +46,43 @@
     <ul>
         <li>
             Functions
-            <ul>
+            <ol>
                 <li><a href="https://www.geeksforgeeks.org/first-class-functions-python/">Functions must be first-class types</a></li>
                 <li><a href="https://www.sitepoint.com/functional-programming-pure-functions/">All functions must be pure</a></li>
                 <li><a href="rules/functions-rule3.html">Functions may not take a class as a parameter</a></li>
-            </ul>
+                <li><a href="">All functions can accept a sequence of its parameters</a></li>
+            </ol>
         </li>
 
         <li>
             Structs
-            <ul>
+            <ol>
                 <li><a href="rules/todo.html">All structs must implement an interface. Any struct that doesn't have an interface implemented will have one created and implemented automatically by the transpiler.</a></li>
                 <li><a href="rules/todo.html">No abstract classes</a></li>
-                <li><a href="rules/todo.html">There are no access modifiers for struct fields</a></li>
+                <li><a href="rules/todo.html">There are no access modifiers</a></li>
                 <li><a href="rules/todo.html">There are no struct methods. Only extensions for interfaces.</a></li>
                 <li><a href="rules/todo.html">There are no constructors.</a></li>
                 <li><a href="rules/todo.html">All associated struct values must be fields unless decorated with an attribute. Then, it is a property</a></li>
                 <li><a href="rules/todo.html">Fields in structs can be decorated with attributes to define how the property setter/getter should be defined</a></li>
-            </ul>
+            </ol>
         </li>
 
         <li>
             Interfaces
-            <ul>
+            <ol>
                 <li><a href="rules/todo.html">Interfaces can only have readonly values defined. No methods</a></li>
                 <li><a href="rules/todo.html">Interfaces can have "method-like" calls similar to how extensions work in C#</a></li>
                 <li><a href="rules/todo.html">Interfaces automatically extend other interfaces that have the same fields</a></li>
-            </ul>
+            </ol>
+        </li>
+
+        <li>
+            Memory
+            <ol>
+                <li>No garbage collection</li>
+                <li>Objects are freed as soon as they go out of scope unless marked as poolable</li>
+                <li>Poolable objects are automatically pooled when they out of scope.</li>
+            </ol>
         </li>
     </ul>
 </body>
