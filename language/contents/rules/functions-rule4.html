@@ -39,57 +39,36 @@
         </li>
     </ul>
     
-    <h1>Functions may not take a struct as a parameter</h1>
+    <h1>All functions can accept a sequence of its parameters</h1>
 
     <pre>
-        interface IFoo
-        {
-            int x;
-        }
+        void PrintArgs(int x, byte y, string s) => print(x, y, s);
 
-        struct Foo 
-        {
-            int x; 
-        }
-
-        // void PrintFoo(Foo f) => print(f.x); // wrong
-        void PrintFoo(IFoo f) => print(f.x); // right
-
-        var foo = new Foo();
-        PrintFoo(foo);
+        PrintArgs(0, 1, "first", 4, 2, "second", 5 2, "third", 345, 254, "fourth");
     </pre>
 
     <h3>Reasoning</h3>
     <p>
-        Forcing interfaces to be used allows for functions to have more uses. For example, if another new struct happens to implement 
-        that interface, it can be used as a parameter to call that function.
+        Prevents the needs for writing the function multiple times. This can be short-cutted further
+        by using interfaces.
     </p>
     <pre>
-        interface IFoo
-        {
-            int x;
-        }
+        void PrintArgs(int x, byte y, string s) => print(x, y, s);
 
-        struct Foo : IFoo
+        interface Foo 
         {
             int x;
-        }
-
-        struct Foo2 : IFoo
-        {
-            int x;
-            int y;
+            byte y;
             string s;
         }
 
-        // Structs - Rule 1
-        struct Foo3 
-        {
-            int x; 
-        }
+        PrintArgs(Foo(0, 1, "first"), 4, 2, "second", Foo(5, 2, "third"), 345, 254, "fourth");
 
-        // Functions - Rule 4
-        PrintFoo(Foo(), Foo2(), Foo3());
+        // Notice that the arguments can either be an interface or the values
+        // The above is equivalent to:
+        var foo1 = Foo(0, 1, "first");
+        var foo2 = Foo(5, 2, "third");
+        PrintArgs(foo1.x, foo1.y, foo1.s, 4, 2, "second", foo2.x, foo2.y, foo2.s, 345, 254, "fourth");
     </pre>
 </body>
 </html>

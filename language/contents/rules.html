@@ -49,8 +49,8 @@
             <ol>
                 <li><a href="https://www.geeksforgeeks.org/first-class-functions-python/">Functions must be first-class types</a></li>
                 <li><a href="https://www.sitepoint.com/functional-programming-pure-functions/">All functions must be pure</a></li>
-                <li><a href="rules/functions-rule3.html">Functions may not take a class as a parameter</a></li>
-                <li><a href="">All functions can accept a sequence of its parameters</a></li>
+                <li><a href="rules/functions-rule3.html">Functions may not take a struct as a parameter</a></li>
+                <li><a href="rules/functions-rule4.html">All functions can accept a sequence of its parameters or a sequence of parameters that make up an interface</a></li>
             </ol>
         </li>
 
@@ -64,6 +64,7 @@
                 <li><a href="rules/todo.html">There are no constructors.</a></li>
                 <li><a href="rules/todo.html">All associated struct values must be fields unless decorated with an attribute. Then, it is a property</a></li>
                 <li><a href="rules/todo.html">Fields in structs can be decorated with attributes to define how the property setter/getter should be defined</a></li>
+                <li><a href="rules/todo.html">Structs can be marked as poolable to prevent the need for allocating new objects</a></li>
             </ol>
         </li>
 
@@ -82,6 +83,13 @@
                 <li>No garbage collection</li>
                 <li>Objects are freed as soon as they go out of scope unless marked as poolable</li>
                 <li>Poolable objects are automatically pooled when they out of scope.</li>
+            </ol>
+        </li>
+
+        <li>
+            Misc
+            <ol>
+                <li>Allow for automatic dependency injection</li>
             </ol>
         </li>
     </ul>
