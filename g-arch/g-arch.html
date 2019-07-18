@@ -13,43 +13,31 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <style>
-        h1 {
-            text-align : left;
-        }
-    </style>
 </head>
 
-
 <body class="container">
-    <ul class="nav nav-tabs flex-column" role="tablist" style="background-color: var(--theme-color3); position:fixed; left:0; top:0; min-width: 10vw; height: 100vh">
-        <li class="nav-item">
-            <a class="nav-link" href="background.html">Background</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="goals.html">Goals</a>
-        </li>
-        <li class="nav-item">
-                <a class="nav-link" href="abilities.html">Abilities</a>
+    <div class="jumbotron">
+        <h1 class="display-4">Game ARCHitecture (G-ARCH) </h1>
+        <p class="lead">
+            This is a tool to help architecture your games using an Entity Component System. This tool not to be used to develop the game. Rather,
+            it is designed to help generate code and model a game's architecture.
+        </p>
+        <p>How it works:</p>
+        <p>There your 5 types of objects that need to be defined.</p>
+        <ul>
+            <li>
+                Component - A set of data
             </li>
-        <li class="nav-item">
-            <a class="nav-link drop" href="rules.html">Rules</a>
-        </li>
-    </ul>
-
-    <h1>Abilities</h1>
-    <ul>
-        <li>
-            Must be able to transpile to other (popular) programming langauges
-            <ul>
-                <li>C#</li>
-                <li>TypeScript</li>
-                <li>Java</li>
-                <li>C++</li>
-                <li>Rust</li>
-                <li>More?</li>
-            </ul>
-        </li>
-    </ul>
+            <li>
+                Family - A group of entities where the constraint is based on the components
+            </li>
+            <li>
+                Entity - Belongs to one or more families. Contains one or more components.
+            </li>
+            <li>
+                System - A function to act upon all entities in a family.
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

@@ -42,7 +42,7 @@ body {
     padding-top: 1vh;
 }
 
-a, .nav-link {
+a, .nav-link, .nav-tabs .nav-item.show .nav-link {
     color : black;
 }
 
@@ -54,7 +54,12 @@ a:focus, a:hover, .nav-link:hover {
     color: var(--theme-color9);
 }
 
-.nav-tabs .nav-link.active {
+.dropdown-item:hover {
+    background-color : var(--theme-color1);
+    color : var(--theme-color3);
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link  {
     color : var(--theme-color4);
     background-color: var(--theme-color7);
 }
