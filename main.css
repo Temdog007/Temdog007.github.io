@@ -105,3 +105,9 @@ th {
 td {
     padding : 1vmin;
 }
+
+.btn-temware {
+    color: var(--theme-color4);
+    border-color: var(--theme-color5);
+    width: 100%;
+}
