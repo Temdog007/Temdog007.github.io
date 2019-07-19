@@ -81,7 +81,7 @@ function updateComponentInput(evt)
 
     switch(t.attr('target'))
     {
-        case 'name':
+        case 'component-name':
             comp.name = t.val();
             break;
         case 'property-name':
@@ -89,7 +89,6 @@ function updateComponentInput(evt)
             break;
         case 'property-type':
             comp.properties[t.attr('index')].type = t.val();
-            console.log(comp);
             break;
         default:
             return;
@@ -131,7 +130,19 @@ function deleteProperty(evt)
         return;
     }
 
-    t.component.properties.splice(evt.index, 1);
+    const index = $(t).attr("index");
+    const prop = t.component.properties[index];
+    if(!prop)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${prop.name}' property?`))
+    {
+        return;
+    }
+
+    t.component.properties.splice(index, 1);
     updateComponentsModel();
 }
 
@@ -144,6 +155,11 @@ function deleteComponent(evt)
     }
 
     if(!t.component)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.component.name}' component?`))
     {
         return;
     }
@@ -173,7 +189,8 @@ function updateComponentsModel()
         const input = document.createElement("input");
         input.setAttribute("class", "col");
         input.setAttribute("type", "text");
-        input.setAttribute("target", "name");
+        input.setAttribute("target", "component-name");
+        input.component = comp;
         input.value = comp.name;
         topRow.appendChild(input);
 
@@ -212,7 +229,7 @@ function updateComponentsModel()
             select.value = prop.type;
 
             const del = document.createElement("button");
-            del.setAttribute("class", "col btn-danger btn");
+            del.setAttribute("class", "col btn-warning btn");
             del.setAttribute("type", "button");
             del.setAttribute("index", i);
             del.component = comp;
@@ -237,7 +254,7 @@ function updateComponentsModel()
         bottomRow.appendChild(add);
 
         const del = document.createElement("button");
-        del.setAttribute("class", "col btn-warning btn");
+        del.setAttribute("class", "col btn-danger btn");
         del.setAttribute("type", "button");
         del.component = comp;
         $(del).click(deleteComponent);
