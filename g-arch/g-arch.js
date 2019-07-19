@@ -107,6 +107,7 @@ function deleteComponent(evt)
     }
 
     architecture.components.splice(architecture.components.indexOf(t.component), 1);
+    updateComponentsModel();
 }
 
 function updateComponentsModel()
