@@ -26,7 +26,6 @@ class Component
 }
 
 updateComponentsModel();
-updateJson();
 
 $("#systems-button").click(() => 
 {
@@ -78,11 +77,6 @@ function updateComponentInput(evt)
     updateComponentsModel();
 }
 
-function updateJson()
-{
-    $("#jsonContent").html(JSON.stringify(architecture, undefined, 2));
-}
-
 function updateComponentsModel()
 {
     const div = document.getElementById("components-data");
@@ -94,10 +88,13 @@ function updateComponentsModel()
     for(var comp of architecture.components)
     {
         var compDiv = document.createElement("div");
-
-        var h = document.createElement('h5');
-        h.innerHTML = `<input type='text' value='${comp.name}' component-name='${comp.name}' target='name' onclick='${updateComponentInput}'>`;
-        compDiv.appendChild(h);
+        div.appendChild(compDiv);
+        
+        var input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("target", "name");
+        input.value = comp.name;
+        compDiv.appendChild(input);
 
         var table = document.createElement("table");
         compDiv.appendChild(table);
@@ -121,8 +118,6 @@ function updateComponentsModel()
             </tr>
             `;
         }
-        
-        div.appendChild(compDiv);
 
         $('input', $(table)).each((_, t) =>  $(t).change(updateComponentInput));
     }
@@ -133,5 +128,4 @@ function updateComponentsModel()
 function save()
 {
     localStorage.setItem(storageKey, JSON.stringify(architecture));
-    updateJson();
 }
