@@ -7,6 +7,20 @@ var architecture = JSON.parse(localStorage.getItem(storageKey)) || {
     families : []
 };
 
+var typeOptions = [
+    'char',
+    'byte',
+    'short',
+    'ushort',
+    'int',
+    'uint',
+    'long',
+    'ulong',
+    'float',
+    'double',
+    'string',
+];
+
 class Component
 {
     constructor(name)
@@ -77,6 +91,24 @@ function updateComponentInput(evt)
     updateComponentsModel();
 }
 
+function deleteComponent(evt)
+{
+    var t = evt.target;
+    if(!t)
+    {
+        console.log(t);
+        return;
+    }
+
+    if(!t.component)
+    {
+        console.log(t);
+        return;
+    }
+
+    architecture.components.splice(architecture.components.indexOf(t.component), 1);
+}
+
 function updateComponentsModel()
 {
     const div = document.getElementById("components-data");
@@ -88,35 +120,59 @@ function updateComponentsModel()
     for(var comp of architecture.components)
     {
         var compDiv = document.createElement("div");
+        compDiv.setAttribute("class", "component-div p-2");
         div.appendChild(compDiv);
-        
+
+        var topRow = document.createElement("div");
+        topRow.setAttribute("class", "row");
+
         var input = document.createElement("input");
+        input.setAttribute("class", "col");
         input.setAttribute("type", "text");
         input.setAttribute("target", "name");
         input.value = comp.name;
-        compDiv.appendChild(input);
+        topRow.appendChild(input);
 
-        var table = document.createElement("table");
+        var del = document.createElement("button");
+        del.setAttribute("class", "col btn-danger btn");
+        del.setAttribute("type", "button");
+        del.component = comp;
+        $(del).click(deleteComponent);
+        del.innerHTML = "Delete";
+        topRow.appendChild(del);
+
+        compDiv.appendChild(topRow);
+
+        var table = document.createElement("div");
+        table.setAttribute("class", "row");
         compDiv.appendChild(table);
-
-        table.innerHTML +=`
-            <table class='table table-strpied'>
-                <tr>
-                    <th>Key</th>
-                    <th>Type</th>
-                </tr>
-        `;
 
         const properties = comp.properties;
         for(var i = 0; i < properties.length; ++i)
         {
             var prop = properties[i];
-            table.innerHTML += `
-            <tr>
-                <td><input type='text' value='${prop.name}' component-name='${comp.name}' target='property-name' index='${i}'></td>
-                <td>${prop.type}</td>
-            </tr>
-            `;
+            var key = document.createElement("input");
+            key.setAttribute("type", "text");
+            key.setAttribute("index", i);
+            key.setAttribute("target", "property-name");
+            key.setAttribute("class", "col");
+            key.value = prop.name;
+            table.appendChild(key);
+
+            var type = document.createElement("select");
+            type.setAttribute("type", "text");
+            type.setAttribute("index", i);
+            type.setAttribute("target", "property-type");
+            type.setAttribute("class", "col");
+            type.value = prop.type;
+            table.appendChild(type);
+
+            for(var option of typeOptions)
+            {
+                var o = document.createElement("option");
+                o.innerHTML = option;
+                type.appendChild(o);
+            }
         }
 
         $('input', $(table)).each((_, t) =>  $(t).change(updateComponentInput));

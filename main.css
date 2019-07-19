@@ -116,10 +116,6 @@ td {
     color: var(--theme-color1)
 }
 
-.flex-wrap div {
-    margin: 1vmax;
-}
-
-.flex-wrap input {
-    width: 100%;
+.component-div {
+    margin: 1vmin;
 }
