@@ -111,3 +111,7 @@ td {
     border-color: var(--theme-color5);
     width: 100%;
 }
+
+table {
+    margin-bottom: 1vh;
+}

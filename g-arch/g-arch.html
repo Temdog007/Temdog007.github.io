@@ -17,28 +17,31 @@
 </head>
 
 <body class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Game ARCHitecture (G-ARCH) </h1>
-        <p class="lead">
-            This is a tool to help architecture your games using an Entity Component System. This tool not to be used to develop the game. Rather,
-            it is designed to help generate code and model a game's architecture.
-        </p>
-        <p>How it works:</p>
-        <p>There your 5 types of objects that need to be defined.</p>
-        <ul>
-            <li>
-                Component - A set of data
-            </li>
-            <li>
-                Family - A group of entities where the constraint is based on the components
-            </li>
-            <li>
-                Entity - Belongs to one or more families. Contains one or more components.
-            </li>
-            <li>
-                System - A function to act upon all entities in a family.
-            </li>
-        </ul>
+    <div style="margin-bottom: 5vh">
+        <a class="btn-temware btn" data-toggle="collapse" href="#header" role="button" aria-expanded="false" aria-controls="collapseExample">G-Arch</a>
+        <div class="jumbotron collapse" id="header">
+            <h5 class="display-10">Game ARCHitecture (G-ARCH) </h5>
+            <p class="lead">
+                This is a tool to help architecture your games using an Entity Component System. This tool not to be used to develop the game. Rather,
+                it is designed to help generate code and model a game's architecture.
+            </p>
+            <p>How it works:</p>
+            <p>There your 5 types of objects that need to be defined.</p>
+            <ul>
+                <li>
+                    Component - A set of data
+                </li>
+                <li>
+                    Family - A group of entities where the constraint is based on the components
+                </li>
+                <li>
+                    Entity - Belongs to one or more families. Contains one or more components.
+                </li>
+                <li>
+                    System - A function to act upon all entities in a family.
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="row">
@@ -46,22 +49,38 @@
             <pre id="jsonContent">{}</pre>
         </div>
         <div class="col" id="modelContent">
-            <div id="components-data"></div>
-            <div id="families-data"></div>
-            <div id="entities-data"></div>
-            <div id="system-data"></div>
+            <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
+                <li class="nav-item">
+                    <a class="nav-link active" id="components-tab" data-toggle="tab" href="#components-data" role="tab" aria-controls="components-data" aria-selected="true">Components</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab" aria-controls="families-data" aria-selected="true">Families</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities-data" role="tab" aria-controls="entities-data" aria-selected="true">Entities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="systems-tab" data-toggle="tab" href="#system-data" role="tab" aria-controls="system-data" aria-selected="true">Systems</a>
+                </li>
+            </ul>
+            <div>
+                <div class='tab-pane fade show active' id="components-data"></div>
+                <div class='tab-pane fade' id="families-data"></div>
+                <div class='tab-pane fade' id="entities-data"></div>
+                <div class='tab-pane fade' id="system-data"></div>
+            </div>
         </div>
-        <div class="col">
-            <div class="row" id="components-div" style="background-color: var(--theme-color7)">
+        <div class="row">
+            <div class="col" id="components-div" style="background-color: var(--theme-color7)">
                 <button class="btn btn-temware" type="button" id="components-button">Add Component</button>
             </div>
-            <div class="row" id="families-div" style="background-color: var(--theme-color8)">
+            <div class="col" id="families-div" style="background-color: var(--theme-color8)">
                 <button class="btn btn-temware" type="button" id="families-button">Add Family</button>
             </div>
-            <div class="row" id="entities-div" style="background-color: var(--theme-color7)">
+            <div class="col" id="entities-div" style="background-color: var(--theme-color7)">
                 <button class="btn btn-temware" type="button" id="entities-button">Add Entity</button>
             </div>
-            <div class="row" id="systems-div" style="background-color: var(--theme-color8)">
+            <div class="col" id="systems-div" style="background-color: var(--theme-color8)">
                 <button class="btn btn-temware" type="button" id="systems-button">Add System</button>
             </div>
         </div>
