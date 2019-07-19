@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<title>TemScript Struct Rule 8</title>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/main.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        h1 {
+            text-align : left;
+        }
+        table {
+            margin-bottom: 5vmin;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <ul class="nav nav-tabs flex-column" role="tablist" style="background-color: var(--theme-color3); position:fixed; left:0; top:0; min-width: 10vw; height: 100vh">
+        <li class="nav-item">
+            <a class="nav-link" href="/language/contents/background.html">Background</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/language/contents/goals.html">Goals</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="/language/contents/abilities.html">Abilities</a>
+            </li>
+        <li class="nav-item">
+            <a class="nav-link drop" href="/language/contents/rules.html">Rules</a>
+        </li>
+    </ul>
+    
+    <h1>Structs can be marked as poolable to prevent the need for allocating new objects</h1>
+
+    <pre>
+        interface IFoo
+        {
+            string s;
+        }
+
+        for(var i = 0; i < 100; ++i)
+        {
+            var f = default(IFoo); // This will create 100 objects
+        }
+    
+        @poolable
+        interface IFoo2
+        {
+            string s;
+        }
+
+        for(var i = 0; i < 100; ++i)
+        {
+            var f = default(IFoo2); // This will create one object the first time and return that same object the next 99 times
+        }
+    </pre>
+
+    <h3>Reasoning</h3>
+    <p>
+        Prevent frequent allocating and de-allocating. Some structures were designed to be created frequently and pooling will save on resources.
+    </p>
+</body>
+</html>
