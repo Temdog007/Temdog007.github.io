@@ -1,13 +1,13 @@
 const storageKey = "g-arch";
 
-var architecture = JSON.parse(localStorage.getItem(storageKey)) || {
+const architecture = JSON.parse(localStorage.getItem(storageKey)) || {
     components : [],
     entities : [],
     systems : [],
     families : []
 };
 
-var typeOptions = [
+const typeOptions = [
     'char',
     'byte',
     'short',
@@ -66,23 +66,30 @@ $("#families-button").click(() =>
 
 function updateComponentInput(evt)
 {
-    var t = evt.target;
-    var comp = architecture.components.find(c => c.name == $(t).attr('component-name'));
+    if(!evt.target)
+    {
+        return;
+    }
+
+    const comp = evt.target.component;
     if(!comp)
     {
         return;
     }
 
-    switch($(t).attr('target'))
+    const t = $(evt.target);
+
+    switch(t.attr('target'))
     {
         case 'name':
-            comp.name = $(t).val();
+            comp.name = t.val();
             break;
         case 'property-name':
-            comp.properties[$(t).attr('index')].name = $(t).val();
+            comp.properties[t.attr('index')].name = t.val();
             break;
         case 'property-type':
-            comp.properties[$(t).attr('index')].type = $(t).val();
+            comp.properties[t.attr('index')].type = t.val();
+            console.log(comp);
             break;
         default:
             return;
@@ -91,18 +98,53 @@ function updateComponentInput(evt)
     updateComponentsModel();
 }
 
-function deleteComponent(evt)
+function addProperty(evt)
 {
-    var t = evt.target;
-    if(!t)
+    const t = evt.target;
+    if(t !== this)
     {
-        console.log(t);
         return;
     }
 
     if(!t.component)
     {
-        console.log(t);
+        return;
+    }
+
+    t.component.properties.push({
+        name : 'property',
+        type : 'int'
+    });
+    updateComponentsModel();
+}
+
+function deleteProperty(evt)
+{
+    const t = evt.target;
+    if(t !== this)
+    {
+        return;
+    }
+
+    if(!t.component)
+    {
+        return;
+    }
+
+    t.component.properties.splice(evt.index, 1);
+    updateComponentsModel();
+}
+
+function deleteComponent(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.component)
+    {
         return;
     }
 
@@ -118,65 +160,89 @@ function updateComponentsModel()
         div.lastChild.remove();
     }
 
-    for(var comp of architecture.components)
+    for(const comp of architecture.components)
     {
-        var compDiv = document.createElement("div");
+        const compDiv = document.createElement("div");
         compDiv.setAttribute("class", "component-div p-2");
         div.appendChild(compDiv);
 
-        var topRow = document.createElement("div");
+        const topRow = document.createElement("div");
         topRow.setAttribute("class", "row");
+        compDiv.appendChild(topRow);
 
-        var input = document.createElement("input");
+        const input = document.createElement("input");
         input.setAttribute("class", "col");
         input.setAttribute("type", "text");
         input.setAttribute("target", "name");
         input.value = comp.name;
         topRow.appendChild(input);
 
-        var del = document.createElement("button");
-        del.setAttribute("class", "col btn-danger btn");
-        del.setAttribute("type", "button");
-        del.component = comp;
-        $(del).click(deleteComponent);
-        del.innerHTML = "Delete";
-        topRow.appendChild(del);
-
-        compDiv.appendChild(topRow);
-
-        var table = document.createElement("div");
-        table.setAttribute("class", "row");
-        compDiv.appendChild(table);
-
         const properties = comp.properties;
-        for(var i = 0; i < properties.length; ++i)
+        for(let i = 0; i < properties.length; ++i)
         {
-            var prop = properties[i];
-            var key = document.createElement("input");
+            const prop = properties[i];
+
+            const table = document.createElement("div");
+            table.setAttribute("class", "row");
+            compDiv.appendChild(table);
+
+            const key = document.createElement("input");
             key.setAttribute("type", "text");
             key.setAttribute("index", i);
             key.setAttribute("target", "property-name");
             key.setAttribute("class", "col");
+            key.component = comp;
             key.value = prop.name;
             table.appendChild(key);
 
-            var type = document.createElement("select");
-            type.setAttribute("type", "text");
-            type.setAttribute("index", i);
-            type.setAttribute("target", "property-type");
-            type.setAttribute("class", "col");
-            type.value = prop.type;
-            table.appendChild(type);
+            const select = document.createElement("select");
+            select.setAttribute("index", i);
+            select.setAttribute("target", "property-type");
+            select.setAttribute("class", "col");
+            select.component = comp;
+            table.appendChild(select);
 
-            for(var option of typeOptions)
+            for(const option of typeOptions)
             {
-                var o = document.createElement("option");
+                const o = document.createElement("option");
                 o.innerHTML = option;
-                type.appendChild(o);
+                select.appendChild(o);
             }
+
+            select.value = prop.type;
+
+            const del = document.createElement("button");
+            del.setAttribute("class", "col btn-danger btn");
+            del.setAttribute("type", "button");
+            del.setAttribute("index", i);
+            del.component = comp;
+            $(del).click(deleteProperty);
+            del.innerHTML = "X";
+            table.appendChild(del);
         }
 
-        $('input', $(table)).each((_, t) =>  $(t).change(updateComponentInput));
+        $('input', $(compDiv)).each((_, t) =>  $(t).change(updateComponentInput));
+        $('select', $(compDiv)).each((_, t) =>  $(t).change(updateComponentInput));
+
+        const bottomRow = document.createElement("div");
+        bottomRow.setAttribute("class", "row");
+        compDiv.appendChild(bottomRow);
+
+        const add = document.createElement("button");
+        add.setAttribute("class", "col btn-success btn");
+        add.setAttribute("type", "button");
+        add.component = comp;
+        $(add).click(addProperty);
+        add.innerHTML = "Add Property";
+        bottomRow.appendChild(add);
+
+        const del = document.createElement("button");
+        del.setAttribute("class", "col btn-warning btn");
+        del.setAttribute("type", "button");
+        del.component = comp;
+        $(del).click(deleteComponent);
+        del.innerHTML = "Delete Component";
+        bottomRow.appendChild(del);
     }
     
     save();
