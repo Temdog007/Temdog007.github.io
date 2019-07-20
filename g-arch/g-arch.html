@@ -17,12 +17,15 @@
 </head>
 
 <body class="container">
-    <h1 class="display-10">Game ARCHitecture (G-ARCH)</h1>
+    <h1>Game ARCHitecture (G-ARCH)</h1>
 
     <div class="container-fluid">
         <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
             <li class="nav-item">
-                <a class="nav-link active" id="components-tab" data-toggle="tab" href="#components-data" role="tab" aria-controls="components-data" aria-selected="true">Components</a>
+                <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about-data" role="tab" aria-controls="about-data" aria-selected="true">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="components-tab" data-toggle="tab" href="#components-data" role="tab" aria-controls="components-data" aria-selected="true">Components</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab" aria-controls="families-data" aria-selected="false">Families</a>
@@ -38,7 +41,107 @@
             </li>
         </ul>
         <div class='tab-content'>
-            <div class='tab-pane fade show active' id="components-data" role="tabpanel" aria-labelledby="components-tab"></div>
+            <div class='tab-pane fade show active jumbotron' id='about-data' role="tabpanel" aria-labelledby="about-tab" style="background-color: var(--theme-color1)">
+                <h1 class='display-4'>Game Architecture (G-Arch)</h1>
+                <p class="lead">G-Arch is a tool designed to help aid in game architecture structure. This tool assumes that an entity component system will be used.</p>
+                <hr class="my-4">
+                <h2 class='display-5'>How to use:</h2>
+                <ul class="nav nav-tabs nav-justified" id="myTabs2" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="components-help-tab" data-toggle="tab" href="#components-help" role="tab" aria-controls="components-help" aria-selected="false">Components</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="families-help-tab" data-toggle="tab" href="#families-help" role="tab" aria-controls="families-help" aria-selected="false">Families</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="entities-help-tab" data-toggle="tab" href="#entities-help" role="tab" aria-controls="entities-help" aria-selected="false">Entities</a>
+                    </li>
+                </ul>
+                <div class='tab-content'>
+                    <div class='tab-pane' id='components-help' role='tabpanel' aria-labelledby="components-help-tab">
+                        <p class="lead">A component is a set of data.</p>
+                        <p>Example: A position component that represents an entity's position a 2D game will have two numbers to represent the X and Y coordinate.</p>
+
+                        <p>JSON Example</p>
+                        <pre class="jsonExample">
+                            {
+                                "name" : "position",
+                                "properties": [
+                                    {
+                                        "name": "x",
+                                        "type" : "float"
+                                    },
+                                    {
+                                        "name" : "y",
+                                        "type" : "float"
+                                    }
+                                ]
+                            }
+                        </pre>
+
+                        <p>YAML Example</p>
+                        <pre class="yamlExample">
+                            name: position
+                            properties:
+                            - 
+                                name: x
+                                type : float
+                            - 
+                                name : y
+                                type : float
+                        </pre>
+                    </div>
+                    <div class='tab-pane' id='families-help' role='tabpanel' aria-labelledby="families-help-tab">
+                        <p class="lead">A family is a set of components. If an entity belongs to a family, then it must have all of the components in the set.</p>
+                        <p>Example: Members of the 'movable' family will have a position component and a velocity component</p>
+
+                        <p>JSON Example</p>
+                        <pre class="jsonExample">
+                            {
+                                "name" : "movable",
+                                "components": [
+                                    "position",
+                                    "velocity"
+                                ]
+                            }
+                        </pre>
+
+                        <p>YAML Example</p>
+                        <pre class="yamlExample">
+                            name : movable
+                            components:
+                                - position
+                                - velocity
+                        </pre>
+                    </div>
+                    <div class='tab-pane' id='entities-help' role='tabpanel' aria-labelledby="entities-help-tab">
+                        <p class="lead">An entity is a set of components that belongs to one or more families. The families that the entity belongs to defines which components it has.</p>
+                        <p>Example: The 'player' entity is a member of the 'movable', 'controllable', and 'drawable' families.</p>
+
+                        <p>JSON Example</p>
+                        <pre class="jsonExample">
+                            {
+                                "name" : "player",
+                                "families": [
+                                    "movable",
+                                    "controllable",
+                                    "drawable"
+                                ]
+                            }
+                        </pre>
+
+                        <p>YAML Example</p>
+                        <pre class="yamlExample">
+                            name : player
+                            components:
+                                - movable
+                                - controllable
+                                - drawable
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab"></div>
             <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data"></div>
             <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data"></div>
             <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data"></div>

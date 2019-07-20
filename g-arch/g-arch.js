@@ -1,5 +1,7 @@
 const storageKey = "g-arch";
 
+const exampleArchitecture = {};
+
 const architecture = JSON.parse(localStorage.getItem(storageKey)) || {
     components : [],
     entities : [],
