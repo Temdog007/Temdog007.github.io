@@ -1,13 +1,108 @@
 const storageKey = "g-arch";
 
-const exampleArchitecture = {};
-
-const architecture = JSON.parse(localStorage.getItem(storageKey)) || {
-    components : [],
-    entities : [],
-    systems : [],
-    families : []
+const exampleArchitecture = {
+    components : [
+        {
+            name : "position",
+            properties: [
+                {
+                    name : "x",
+                    type : "float"
+                },
+                {
+                    name: "y",
+                    type : "float"
+                }
+            ]
+        },
+        {
+            name: "velocity",
+            properties: [
+                {
+                    name : "x",
+                    type : "float"
+                },
+                {
+                    name : "y",
+                    type : "float"
+                }
+            ]
+        },
+        {
+            name : "controller",
+            properties : [
+                {
+                    name : "controllerType",
+                    type : "string"
+                }
+            ]
+        },
+        {
+            name : "texture",
+            properties : [
+                {
+                    name : "textureFilePath",
+                    type : "string"
+                }
+            ]
+        }
+    ],
+    families : [
+        {
+            name : "movable",
+            components : [
+                "position",
+                "velocity"
+            ]
+        },
+        {
+            name : "drawable",
+            components : [
+                "position",
+                "texture"
+            ]
+        },
+        {
+            name : "controllable",
+            components : [
+                "velocity",
+                "controller"
+            ]
+        }
+    ],
+    entities : [
+        {
+            name : "player",
+            families : [
+                "movable",
+                "drawable",
+                "controlable"
+            ]
+        }
+    ],
+    systems : [
+        {
+            name : "movePlayer",
+            parameters : [
+                "movable"
+            ]
+        },
+        {
+            name : "drawPlayer",
+            parameters : [
+                "drawable"
+            ]
+        },
+        {
+            name : "controllerPlayer",
+            parameters : [
+                "controlable"
+            ]
+        }
+    ]
 };
+
+const architecture = JSON.parse(localStorage.getItem(storageKey)) || exampleArchitecture;
 
 const typeOptions = [
     'char',
@@ -479,3 +574,56 @@ function save()
     localStorage.setItem(storageKey, str);
     $("#json-content").html(str);
 }
+
+document.getElementById("fullJsonExample").innerHTML = JSON.stringify(exampleArchitecture,  undefined, 2);
+document.getElementById("fullYamlExample").innerHTML = `components:
+- name: position
+  properties:
+  - name: x
+    type: float
+  - name: y
+    type: float
+- name: velocity
+  properties:
+  - name: x
+    type: float
+  - name: y
+    type: float
+- name: controller
+  properties:
+  - name: controllerType
+    type: string
+- name: texture
+  properties:
+  - name: textureFilePath
+    type: string
+families:
+- name: movable
+  components:
+  - position
+  - velocity
+- name: drawable
+  components:
+  - position
+  - texture
+- name: controllable
+  components:
+  - velocity
+  - controller
+entities:
+- name: player
+  families:
+  - movable
+  - drawable
+  - controlable
+systems:
+- name: movePlayer
+  parameters:
+  - movable
+- name: drawPlayer
+  parameters:
+  - drawable
+- name: controllerPlayer
+  parameters:
+  - controlable
+`;
