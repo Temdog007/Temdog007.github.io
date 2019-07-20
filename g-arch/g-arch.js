@@ -149,6 +149,7 @@ function update()
 {
     updateComponentsModel();
     updateFamiliesModel();
+    updateEntitiesModel();
 }
 
 $("#systems-button").click(() => 
@@ -158,7 +159,7 @@ $("#systems-button").click(() =>
 
 $("#components-button").click(() =>
 {
-    const component = new Component(`New Component${architecture.components.length}`);
+    const component = new Component(`Component${architecture.components.length}`);
     architecture.components.push(component);
 
     updateComponentsModel();
@@ -166,13 +167,19 @@ $("#components-button").click(() =>
 
 $("#entities-button").click(() =>
 {
+    const entity = {
+        name : `Entity${architecture.entities.length}`,
+        families : []
+    };
+    architecture.entities.push(entity);
 
+    updateEntitiesModel();
 });
 
 $("#families-button").click(() =>
 {
     const family = {
-        name : `New Family${architecture.families.length}`,
+        name : `Family${architecture.families.length}`,
         components : []
     };
     architecture.families.push(family);
@@ -189,7 +196,8 @@ function updateInput(evt)
 
     const comp = evt.target.component;
     const family = evt.target.family;
-    if(!comp && !family)
+    const entity = evt.target.entity;
+    if(!comp && !family && !entity)
     {
         return;
     }
@@ -203,6 +211,9 @@ function updateInput(evt)
             break;
         case 'component-name':
             comp.name = t.val();
+            break;
+        case 'entity-name':
+            entity.name = t.val();
             break;
         case 'property-name':
             comp.properties[t.attr('index')].name = t.val();
@@ -336,6 +347,76 @@ function deleteComponentFromFamily(evt)
     updateFamiliesModel();
 }
 
+function addFamilyToEntity(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.entity)
+    {
+        return;
+    }
+
+    var families = t.entity.families;
+    if(families.includes(t.innerHTML))
+    {
+        return;
+    }
+
+    families.push(t.innerHTML);
+
+    updateEntitiesModel();
+}
+
+function deleteFamilyFromEntity(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.entity)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.familyName}' family from this entity?`))
+    {
+        return;
+    }
+
+    var families = t.entity.families;
+    families.splice(families.indexOf(t.familyName), 1);
+
+    updateEntitiesModel();
+}
+
+function deleteEntity(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.entity)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.entity.name}' entity?`))
+    {
+        return;
+    }
+
+    architecture.families.splice(architecture.entities.indexOf(t.entity), 1);
+    updateComponentsModel();
+}
+
 function deleteFamily(evt)
 {
     const t = evt.target;
@@ -349,7 +430,7 @@ function deleteFamily(evt)
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.name}' family?`))
+    if(!confirm(`Are you sure you want to delete the '${t.family.name}' family?`))
     {
         return;
     }
@@ -485,7 +566,7 @@ function updateFamiliesModel()
     for(const family of architecture.families)
     {
         const familyDiv = document.createElement("div");
-        familyDiv.setAttribute("class", "component-div p-2");
+        familyDiv.setAttribute("class", "family-div p-2");
         div.appendChild(familyDiv);
 
         const topRow = document.createElement("div");
@@ -561,6 +642,100 @@ function updateFamiliesModel()
         del.setAttribute("type", "button");
         del.family = family;
         $(del).click(deleteFamily);
+        del.innerHTML = "X";
+        topRow.appendChild(del);
+    }
+
+    save();
+}
+
+function updateEntitiesModel()
+{
+    const div = document.getElementById("entities-list");
+    while(div.hasChildNodes())
+    {
+        div.lastChild.remove();
+    }
+
+    for(const entity of architecture.entities)
+    {
+        const entityDiv = document.createElement("div");
+        entityDiv.setAttribute("class", "entity-div p-2");
+        div.appendChild(entityDiv);
+
+        const topRow = document.createElement("div");
+        topRow.setAttribute("class", "row");
+        entityDiv.appendChild(topRow);
+
+        const input = document.createElement("input");
+        input.setAttribute("class", "col entity-name-text");
+        input.setAttribute("type", "text");
+        input.setAttribute("target", "entity-name");
+        input.entity = entity;
+        input.value = entity.name;
+        topRow.appendChild(input);
+
+        $('input', $(entityDiv)).each((_, t) =>  $(t).change(updateInput));
+
+        for(const familyName of entity.families)
+        {
+            const row = document.createElement("div");
+            row.setAttribute("class", "row");
+            entityDiv.appendChild(row);
+
+            const label = document.createElement('label');
+            label.innerHTML = familyName;
+            label.setAttribute("class", "col");
+            row.appendChild(label);
+
+            const del = document.createElement("button");
+            del.innerHTML = "X";
+            del.setAttribute("class", "col-md-auto btn btn-warning");
+            del.entity = entity;
+            del.familyName = familyName;
+            $(del).click(deleteFamilyFromEntity);
+            row.appendChild(del);
+        }
+
+        const bottomRow = document.createElement("div");
+        bottomRow.setAttribute("class", "row");
+        entityDiv.appendChild(bottomRow);
+
+        const dropdown = document.createElement("div");
+        dropdown.setAttribute("class", "dropdown");
+        bottomRow.appendChild(dropdown);
+
+        const add = document.createElement("button");
+        add.setAttribute("class", "col btn-secondary btn");
+        add.setAttribute("type", "button");
+        add.setAttribute("id", `${entity.name}dropdown`);
+        add.setAttribute('data-toggle', 'dropdown');
+        add.setAttribute("aria-haspopup", "true");
+        add.setAttribute("aria-expanded", "false");
+        add.innerHTML = "Add Family";
+        dropdown.appendChild(add);
+
+        const items = document.createElement("div");
+        items.setAttribute("class", "dropdown-menu");
+        items.setAttribute("aria-labelledby", `${entity.name}dropdown`);
+        dropdown.appendChild(items);
+
+        for(const family of architecture.families)
+        {
+            var a = document.createElement('button');
+            a.setAttribute("class", "dropdown-item");
+            a.setAttribute("type", "button");
+            a.entity = entity;
+            a.innerHTML = family.name;
+            $(a).click(addFamilyToEntity);
+            items.appendChild(a);
+        }
+
+        const del = document.createElement("button");
+        del.setAttribute("class", "col-md-auto btn-danger btn");
+        del.setAttribute("type", "button");
+        del.entity = entity;
+        $(del).click(deleteEntity);
         del.innerHTML = "X";
         topRow.appendChild(del);
     }
