@@ -19,33 +19,6 @@
 <body class="container">
     <h1 class="display-10">Game ARCHitecture (G-ARCH)</h1>
 
-    <div class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <p class="lead">
-                    This is a tool to help architecture your games using an Entity Component System. This tool not to be used to develop the game. Rather,
-                    it is designed to help generate code and model a game's architecture.
-                </p>
-                <p>How it works:</p>
-                <p>There your 5 types of objects that need to be defined.</p>
-                <ul>
-                    <li>
-                        Component - A set of data
-                    </li>
-                    <li>
-                        Family - A group of entities where the constraint is based on the components
-                    </li>
-                    <li>
-                        Entity - Belongs to one or more families. Contains one or more components.
-                    </li>
-                    <li>
-                        System - A function to act upon all entities in a family.
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
     <div class="container-fluid">
         <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
             <li class="nav-item">
@@ -81,6 +54,5 @@
         <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
         <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
     </div>
-
 </body>
 </html>

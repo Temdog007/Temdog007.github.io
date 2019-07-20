@@ -124,7 +124,7 @@ pre {
     background-color: white;
 }
 
-.entity-name-text {
+.entity-name-text, .family-name-text {
     background-color: black;
     color: white;
 }

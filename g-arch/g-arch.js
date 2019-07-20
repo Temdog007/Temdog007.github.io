@@ -46,7 +46,13 @@ class Property
     }
 }
 
-updateComponentsModel();
+update();
+
+function update()
+{
+    updateComponentsModel();
+    updateFamiliesModel();
+}
 
 $("#systems-button").click(() => 
 {
@@ -68,10 +74,16 @@ $("#entities-button").click(() =>
 
 $("#families-button").click(() =>
 {
+    const family = {
+        name : `New Family${architecture.families.length}`,
+        components : []
+    };
+    architecture.families.push(family);
 
+    updateFamiliesModel();
 });
 
-function updateComponentInput(evt)
+function updateInput(evt)
 {
     if(!evt.target)
     {
@@ -79,7 +91,8 @@ function updateComponentInput(evt)
     }
 
     const comp = evt.target.component;
-    if(!comp)
+    const family = evt.target.family;
+    if(!comp && !family)
     {
         return;
     }
@@ -88,6 +101,9 @@ function updateComponentInput(evt)
 
     switch(t.attr('target'))
     {
+        case 'family-name':
+            family.name = t.val();
+            break;
         case 'component-name':
             comp.name = t.val();
             break;
@@ -172,6 +188,76 @@ function deleteComponent(evt)
     }
 
     architecture.components.splice(architecture.components.indexOf(t.component), 1);
+    updateComponentsModel();
+}
+
+function addComponentToFamily(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.family)
+    {
+        return;
+    }
+
+    var components = t.family.components;
+    if(components.includes(t.innerHTML))
+    {
+        return;
+    }
+
+    components.push(t.innerHTML);
+
+    updateFamiliesModel();
+}
+
+function deleteComponentFromFamily(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.family)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.componentName}' component from this family?`))
+    {
+        return;
+    }
+
+    var components = t.family.components;
+    components.splice(components.indexOf(t.componentName), 1);
+
+    updateFamiliesModel();
+}
+
+function deleteFamily(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.family)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.name}' family?`))
+    {
+        return;
+    }
+
+    architecture.families.splice(architecture.components.indexOf(t.family), 1);
     updateComponentsModel();
 }
 
@@ -264,8 +350,8 @@ function updateComponentsModel()
             table.appendChild(del);
         }
 
-        $('input', $(compDiv)).each((_, t) =>  $(t).change(updateComponentInput));
-        $('select', $(compDiv)).each((_, t) =>  $(t).change(updateComponentInput));
+        $('input', $(compDiv)).each((_, t) =>  $(t).change(updateInput));
+        $('select', $(compDiv)).each((_, t) =>  $(t).change(updateInput));
 
         const bottomRow = document.createElement("div");
         bottomRow.setAttribute("class", "row");
@@ -288,6 +374,100 @@ function updateComponentsModel()
         bottomRow.appendChild(del);
     }
     
+    save();
+}
+
+function updateFamiliesModel()
+{
+    const div = document.getElementById("families-data");
+    while(div.hasChildNodes())
+    {
+        div.lastChild.remove();
+    }
+
+    for(const family of architecture.families)
+    {
+        const familyDiv = document.createElement("div");
+        familyDiv.setAttribute("class", "component-div p-2");
+        div.appendChild(familyDiv);
+
+        const topRow = document.createElement("div");
+        topRow.setAttribute("class", "row");
+        familyDiv.appendChild(topRow);
+
+        const input = document.createElement("input");
+        input.setAttribute("class", "col family-name-text");
+        input.setAttribute("type", "text");
+        input.setAttribute("target", "family-name");
+        input.family = family;
+        input.value = family.name;
+        topRow.appendChild(input);
+
+        $('input', $(familyDiv)).each((_, t) =>  $(t).change(updateInput));
+
+        for(const componentName of family.components)
+        {
+            const row = document.createElement("div");
+            row.setAttribute("class", "row");
+            familyDiv.appendChild(row);
+
+            const label = document.createElement('label');
+            label.innerHTML = componentName;
+            label.setAttribute("class", "col");
+            row.appendChild(label);
+
+            const del = document.createElement("button");
+            del.innerHTML = "X";
+            del.setAttribute("class", "col-md-auto btn btn-warning");
+            del.family = family;
+            del.componentName = componentName;
+            $(del).click(deleteComponentFromFamily);
+            row.appendChild(del);
+        }
+
+        const bottomRow = document.createElement("div");
+        bottomRow.setAttribute("class", "row");
+        familyDiv.appendChild(bottomRow);
+
+        const dropdown = document.createElement("div");
+        dropdown.setAttribute("class", "dropdown");
+        bottomRow.appendChild(dropdown);
+
+        const add = document.createElement("button");
+        add.setAttribute("class", "col btn-secondary btn");
+        add.setAttribute("type", "button");
+        add.setAttribute("id", `${family.name}dropdown`);
+        add.setAttribute('data-toggle', 'dropdown');
+        add.setAttribute("aria-haspopup", "true");
+        add.setAttribute("aria-expanded", "false");
+        add.innerHTML = "Add Component";
+        dropdown.appendChild(add);
+
+        const items = document.createElement("div");
+        items.setAttribute("class", "dropdown-menu");
+        items.setAttribute("aria-labelledby", `${family.name}dropdown`);
+        dropdown.appendChild(items);
+
+        for(const comp of architecture.components)
+        {
+            var a = document.createElement('button');
+            a.setAttribute("class", "dropdown-item");
+            a.setAttribute("type", "button");
+            a.family = family;
+            a.innerHTML = comp.name;
+            $(a).click(addComponentToFamily);
+            items.appendChild(a);
+        }
+
+        const del = document.createElement("button");
+        del.setAttribute("class", "col-md-auto btn-danger btn");
+        del.setAttribute("type", "button");
+        del.family = family;
+        $(del).click(deleteFamily);
+        del.innerHTML = "X";
+        topRow.appendChild(del);
+    }
+
     save();
 }
 
