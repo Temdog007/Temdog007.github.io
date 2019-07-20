@@ -31,11 +31,18 @@ class Component
         }
         this.name = name;
         this.properties = [
-            {
-                name : 'x',
-                type : 'integer'
-            }
+            new Property()
         ];
+    }
+}
+
+class Property 
+{
+    constructor(name, type, isArray)
+    {
+        this.name = name || 'property';
+        this.type = type || 'int';
+        this.isArray = isArray || false;
     }
 }
 
@@ -90,6 +97,9 @@ function updateComponentInput(evt)
         case 'property-type':
             comp.properties[t.attr('index')].type = t.val();
             break;
+        case 'property-array':
+            comp.properties[t.attr('index')].isArray = t.prop("checked");
+            break;
         default:
             return;
     }
@@ -110,10 +120,7 @@ function addProperty(evt)
         return;
     }
 
-    t.component.properties.push({
-        name : 'property',
-        type : 'int'
-    });
+    t.component.properties.push(new Property());
     updateComponentsModel();
 }
 
@@ -187,7 +194,7 @@ function updateComponentsModel()
         compDiv.appendChild(topRow);
 
         const input = document.createElement("input");
-        input.setAttribute("class", "col");
+        input.setAttribute("class", "col entity-name-text");
         input.setAttribute("type", "text");
         input.setAttribute("target", "component-name");
         input.component = comp;
@@ -212,10 +219,29 @@ function updateComponentsModel()
             key.value = prop.name;
             table.appendChild(key);
 
+            const d = document.createElement("div");
+            d.setAttribute("class", "col-md-auto");
+            table.appendChild(d);
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `${prop.name}-checkbox`);
+            label.innerHTML = "IsArray?";
+            d.appendChild(label);
+
+            const check = document.createElement("input");
+            check.setAttribute("type", "checkbox");
+            check.setAttribute("index", i);
+            check.setAttribute("id", `${prop.name}-checkbox`);
+            check.setAttribute("target", "property-array");
+            check.setAttribute("class", "col-md-auto");
+            check.component = comp;
+            check.checked = prop.isArray;
+            d.appendChild(check);
+
             const select = document.createElement("select");
             select.setAttribute("index", i);
             select.setAttribute("target", "property-type");
-            select.setAttribute("class", "col");
+            select.setAttribute("class", "col-md-auto");
             select.component = comp;
             table.appendChild(select);
 
@@ -229,7 +255,7 @@ function updateComponentsModel()
             select.value = prop.type;
 
             const del = document.createElement("button");
-            del.setAttribute("class", "col btn-warning btn");
+            del.setAttribute("class", "col-md-auto btn-warning btn");
             del.setAttribute("type", "button");
             del.setAttribute("index", i);
             del.component = comp;
@@ -267,5 +293,7 @@ function updateComponentsModel()
 
 function save()
 {
-    localStorage.setItem(storageKey, JSON.stringify(architecture));
+    var str = JSON.stringify(architecture, undefined, 2);
+    localStorage.setItem(storageKey, str);
+    $("#json-content").html(str);
 }

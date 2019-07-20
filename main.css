@@ -19,7 +19,7 @@
     padding: 1vmin;
 }
 
-.tab-content b, .tab-content i, .tab-content u {
+.tab-content b, .tab-content i, .tab-content u, .tab-content .row {
     padding: 0;
 }
 
@@ -118,4 +118,13 @@ td {
 
 .component-div {
     margin: 1vmin;
+}
+
+pre {
+    background-color: white;
+}
+
+.entity-name-text {
+    background-color: black;
+    color: white;
 }

@@ -52,24 +52,30 @@
                 <a class="nav-link active" id="components-tab" data-toggle="tab" href="#components-data" role="tab" aria-controls="components-data" aria-selected="true">Components</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab" aria-controls="families-data" aria-selected="true">Families</a>
+                <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab" aria-controls="families-data" aria-selected="false">Families</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities-data" role="tab" aria-controls="entities-data" aria-selected="true">Entities</a>
+                <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities-data" role="tab" aria-controls="entities-data" aria-selected="false">Entities</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="systems-tab" data-toggle="tab" href="#system-data" role="tab" aria-controls="system-data" aria-selected="true">Systems</a>
+                <a class="nav-link" id="systems-tab" data-toggle="tab" href="#system-data" role="tab" aria-controls="system-data" aria-selected="false">Systems</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="json-tab" data-toggle="tab" href="#json-data" role="tab" aria-controls="json-data" aria-selected="false">Json</a>
             </li>
         </ul>
-        <div>
-            <div class='tab-pane fade show active d-flex flex-row flex-wrap' id="components-data"></div>
-            <div class='tab-pane fade' id="families-data"></div>
-            <div class='tab-pane fade' id="entities-data"></div>
-            <div class='tab-pane fade' id="system-data"></div>
+        <div class='tab-content'>
+            <div class='tab-pane fade show active' id="components-data" role="tabpanel" aria-labelledby="components-tab"></div>
+            <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data"></div>
+            <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data"></div>
+            <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data"></div>
+            <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
+                <pre readonly id='json-content'>{}</pre>
+            </div>
         </div>
     </div>
 
-    <div class="list-group" style="position: absolute; left: 0; top: 0; margin: 1vmin">
+    <div class="list-group" style="position: absolute; right: 0; top: 0; margin: 1vmin">
         <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
         <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
         <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
