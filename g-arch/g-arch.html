@@ -177,21 +177,26 @@
                     </div>
                 </div>
             </div>
-            <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab"></div>
-            <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data"></div>
-            <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data"></div>
-            <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data"></div>
+            <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab">
+                <div id="components-list"></div>
+                <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
+            </div>
+            <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data">
+                <div id="families-list"></div>
+                <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
+            </div>
+            <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data">
+                <div id="entities-list"></div>
+                <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
+            </div>
+            <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data">
+                <div id="systems-list"></div>
+                <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
+            </div>
             <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
                 <pre readonly id='json-content'>{}</pre>
             </div>
         </div>
-    </div>
-
-    <div class="list-group" style="position: absolute; right: 0; top: 0; margin: 1vmin">
-        <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
-        <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
-        <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
-        <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
     </div>
 </body>
 </html>

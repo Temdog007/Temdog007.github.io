@@ -360,7 +360,7 @@ function deleteFamily(evt)
 
 function updateComponentsModel()
 {
-    const div = document.getElementById("components-data");
+    const div = document.getElementById("components-list");
     while(div.hasChildNodes())
     {
         div.lastChild.remove();
@@ -476,7 +476,7 @@ function updateComponentsModel()
 
 function updateFamiliesModel()
 {
-    const div = document.getElementById("families-data");
+    const div = document.getElementById("families-list");
     while(div.hasChildNodes())
     {
         div.lastChild.remove();
