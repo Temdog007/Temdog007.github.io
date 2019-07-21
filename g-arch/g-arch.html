@@ -16,7 +16,7 @@
     <script async src="g-arch.js" type="application/javascript"></script>
 </head>
 
-<body class="container">
+<body>
     <div class="sticky-top" style="background-color: var(--theme-color3)">
         <h1>Game ARCHitecture (G-ARCH)</h1>
         <ul class="nav nav-tabs nav-fill" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
@@ -65,6 +65,14 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="yaml-example-help-tab" data-toggle="tab" href="#yaml-example-help" role="tab" aria-controls="yaml-example-help" aria-selected="false">YAML Example</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="="true" aria-expanded="false">Code Generation Examples</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" id="csharp-example-tab" data-toggle="tab" href="#csharp-example-help" aria-controls="csharp-example-help" aria-selected="false" href="">C#</a>
+                                <a class="dropdown-item" href="">TypeScript</a>
+                                <a class="dropdown-item" href="">Rust</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -176,6 +184,71 @@
                     </div>
                     <div class='tab-pane fade' id='yaml-example-help' role='tabpanel' aria-labelledby="yaml-example-help'">
                         <pre class="yamlExample" id="fullYamlExample"></pre>
+                    </div>
+                    <div class="tab-pane fade" id="csharp-example-help" role="tabpanel" aria-labelledby="csharp-example-help">
+                        <h1>C#</h1>
+                        <pre class="jsonExample">
+//Components are structs
+public struct Position {
+    public readonly float x;
+    public readonly float y;
+}
+public struct Velocity {
+    public readonly float x;
+    public readonly float y;
+}
+public struct Controller {
+    public readonly string controllerType;
+}
+public struct Texture{
+    public readonly string textureFilePath;
+}
+
+//Families are interfaces
+public interface Movable {
+    Position Position {get;}
+    Velocity Velocity {get;}
+}
+public interface Drawable {
+    Position Position{get;}
+    Texture Texture{get;}
+}
+public interface Controllable {
+    Velocity Velocity{get;}
+    Controller Controller {get;}
+}
+
+// Entities are classes
+public class Player : Movable, Drawable, Controllable {
+    Position Position {get; set;}
+    Velocity Velocity {get; set;}
+    Texture Texture{get; set;}
+    Controller Controller {get; set;}
+}
+
+// System manager will contain all of the systems
+public interface SystemManager
+{
+    // Systems are pure functions. The arguments are based on the families it takes as parameters. A list is always passed for the families. 
+    SystemReturnValue&ltMovable&gt MovePlayer(SystemState state, IReadOnlyList&ltMovable&gt movable);
+    SystemReturnValue&ltDrawable&gt DrawPlayer(SystemState state, IReadOnlyList&ltDrawable&gt drawable);
+    SystemReturnValue&ltControlable&gt ControlPlayer(SystemState state, IReadOnlyList&ltControlable&gt controllable);
+}
+//Each function will return the new state of the system and any changed components.
+public struct SystemReturnValue&ltT&gt {
+    // New system state
+    public readonly SystemState state;
+
+    // Item1 is the index of where the component was in the list     
+    // Item2 is the new component
+    public readonly IEnumerable&ltTuple&ltint, T&gt&gt changes;
+}
+// A enum will be created and passed to every system function.
+public enum SystemState {
+    On,
+    Off
+}
+                        </pre>
                     </div>
                 </div>
             </div>

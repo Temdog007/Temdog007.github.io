@@ -94,7 +94,7 @@ const exampleArchitecture = {
             ]
         },
         {
-            name : "controllerPlayer",
+            name : "controlPlayer",
             parameters : [
                 "controllable"
             ]
@@ -972,7 +972,7 @@ systems:
 - name: drawPlayer
   parameters:
   - drawable
-- name: controllerPlayer
+- name: controlPlayer
   parameters:
   - controllable
 `;
