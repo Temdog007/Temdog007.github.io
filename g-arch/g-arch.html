@@ -17,10 +17,9 @@
 </head>
 
 <body class="container">
-    <h1>Game ARCHitecture (G-ARCH)</h1>
-
-    <div class="container-fluid">
-        <ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
+    <div class="sticky-top" style="background-color: var(--theme-color3)">
+        <h1>Game ARCHitecture (G-ARCH)</h1>
+        <ul class="nav nav-tabs nav-fill" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
             <li class="nav-item">
                 <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about-data" role="tab" aria-controls="about-data" aria-selected="true">About</a>
             </li>
@@ -40,33 +39,36 @@
                 <a class="nav-link" id="json-tab" data-toggle="tab" href="#json-data" role="tab" aria-controls="json-data" aria-selected="false">Json</a>
             </li>
         </ul>
-        <div class='tab-content'>
-            <div class='tab-pane fade show active jumbotron' id='about-data' role="tabpanel" aria-labelledby="about-tab" style="background-color: var(--theme-color1)">
-                <h1 class='display-4'>Game Architecture (G-Arch)</h1>
-                <p class="lead">G-Arch is a tool designed to help aid in game architecture structure. This tool assumes that an entity component system will be used.</p>
-                <hr class="my-4">
-                <h2 class='display-5'>How to use:</h2>
-                <ul class="nav nav-tabs nav-justified" id="myTabs2" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="components-help-tab" data-toggle="tab" href="#components-help" role="tab" aria-controls="components-help" aria-selected="true">Components</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="families-help-tab" data-toggle="tab" href="#families-help" role="tab" aria-controls="families-help" aria-selected="false">Families</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="entities-help-tab" data-toggle="tab" href="#entities-help" role="tab" aria-controls="entities-help" aria-selected="false">Entities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="systems-help-tab" data-toggle="tab" href="#systems-help" role="tab" aria-controls="systems-help" aria-selected="false">Systems</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="json-example-help-tab" data-toggle="tab" href="#json-example-help" role="tab" aria-controls="json-example-help" aria-selected="false">Json Example</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="yaml-example-help-tab" data-toggle="tab" href="#yaml-example-help" role="tab" aria-controls="yaml-example-help" aria-selected="false">YAML Example</a>
-                    </li>
-                </ul>
-                <div class='tab-content'>
+    </div>
+    <div class='tab-content'>
+        <div class='tab-pane fade show active' id='about-data' role="tabpanel" aria-labelledby="about-tab" style="background-color: var(--theme-color1)">
+            <h2>G-Arch is a tool designed to help aid in game architecture structure. This tool assumes that an entity component system will be used.</h2>
+            <hr class="my-4">
+            <div class="row">
+                <div class='col-md-auto'>
+                    <h2 class='display-5'>How to use</h2>
+                    <ul class="nav nav-tabs nav-justified flex-column" id="myTabs2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="components-help-tab" data-toggle="tab" href="#components-help" role="tab" aria-controls="components-help" aria-selected="true">Components</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="families-help-tab" data-toggle="tab" href="#families-help" role="tab" aria-controls="families-help" aria-selected="false">Families</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="entities-help-tab" data-toggle="tab" href="#entities-help" role="tab" aria-controls="entities-help" aria-selected="false">Entities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="systems-help-tab" data-toggle="tab" href="#systems-help" role="tab" aria-controls="systems-help" aria-selected="false">Systems</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="json-example-help-tab" data-toggle="tab" href="#json-example-help" role="tab" aria-controls="json-example-help" aria-selected="false">Json Example</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="yaml-example-help-tab" data-toggle="tab" href="#yaml-example-help" role="tab" aria-controls="yaml-example-help" aria-selected="false">YAML Example</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class='tab-content col'>
                     <div class='tab-pane fade active show' id='components-help' role='tabpanel' aria-labelledby="components-help-tab">
                         <p class="lead">A component is a set of data.</p>
                         <p>Example: A position component that represents an entity's position a 2D game will have two numbers to represent the X and Y coordinate.</p>
@@ -177,25 +179,25 @@
                     </div>
                 </div>
             </div>
-            <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab">
-                <div id="components-list"></div>
-                <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
-            </div>
-            <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data">
-                <div id="families-list"></div>
-                <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
-            </div>
-            <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data">
-                <div id="entities-list"></div>
-                <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
-            </div>
-            <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data">
-                <div id="systems-list"></div>
-                <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
-            </div>
-            <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
-                <pre readonly id='json-content'>{}</pre>
-            </div>
+        </div>
+        <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab">
+            <div id="components-list"></div>
+            <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
+        </div>
+        <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data">
+            <div id="families-list"></div>
+            <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
+        </div>
+        <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data">
+            <div id="entities-list"></div>
+            <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
+        </div>
+        <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data">
+            <div id="systems-list"></div>
+            <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
+        </div>
+        <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
+            <pre readonly id='json-content'>{}</pre>
         </div>
     </div>
 </body>
