@@ -159,24 +159,23 @@
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='systems-help' role='tabpanel' aria-labelledby="systems-help-tab">
-                        <p class="lead">A system is a function that one or more families as parameters. Every entity that belongs to a family that the function needs will be passed to this function.</p>
-                        <p>Example: The 'movePlayer' system takes the 'moveable' family as a parameter.</p>
+                        <p class="lead">A system is a function that takes a game state and returns a game state modification. The call order is dependent on the position it is in the array.</p>
+                        <p>NOTE: If using parallel code generation, order doesn't matter</p>
 
                         <p>JSON Example</p>
                         <pre class="jsonExample">
-                            {
-                                "name" : "movePlayer",
-                                "parameters" : [
-                                    "movable"
-                                ]
-                            }
+                            [
+                                "controlPlayer",
+                                "movePlayer",
+                                "drawPlayer"
+                            ]
                         </pre>
 
                         <p>YAML Example</p>
                         <pre class="yamlExample">
-                            name : movePlayer
-                            parameters:
-                                - movable
+                            - controlPlayer
+                            - movePlayer
+                            - drawPlayer
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='json-example-help' role='tabpanel' aria-labelledby="json-example-help-tab">
@@ -187,68 +186,193 @@
                     </div>
                     <div class="tab-pane fade" id="csharp-example-help" role="tabpanel" aria-labelledby="csharp-example-help">
                         <h1>C#</h1>
-                        <pre class="jsonExample">
-//Components are structs
+<h4>Components are structs</h4>
+<pre class="jsonExample col-md-auto">
 public struct Position {
     public readonly float x;
     public readonly float y;
+
+    public Position(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 public struct Velocity {
     public readonly float x;
     public readonly float y;
+
+    public Velocity(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 public struct Controller {
     public readonly string controllerType;
+
+    public Controller(string contorllerType) {
+        this.controllerType = contorllerType;
+    }
 }
 public struct Texture{
     public readonly string textureFilePath;
-}
 
-//Families are interfaces
+    public Texture(string textureFilePath) {
+        this.textureFilePath = textureFilePath;
+    }
+}
+</pre>
+<h4>Families are interfaces</h4>
+<pre class="jsonExample col-md-auto">
 public interface Movable {
-    Position Position {get;}
-    Velocity Velocity {get;}
+    public Position Position {get;}
+    public Velocity velocity {get;}
 }
 public interface Drawable {
-    Position Position{get;}
-    Texture Texture{get;}
+    public Position position {get;}
+    public Texture texture {get;}
 }
 public interface Controllable {
-    Velocity Velocity{get;}
-    Controller Controller {get;}
+    public Velocity Velocity {get;}
+    public Controller Controller {get;}
 }
-
-// Entities are classes
+</pre>
+<h4>Entities are classes</h4>
+<pre class="jsonExample col-md-auto">
 public class Player : Movable, Drawable, Controllable {
-    Position Position {get; set;}
-    Velocity Velocity {get; set;}
-    Texture Texture{get; set;}
-    Controller Controller {get; set;}
+    public readonly Position position;
+    public readonly Velocity velocity;
+    public readonly Texture texture;
+    public readonly Controller controller;
+
+    public Player(Position position, Velocity velocity, Texture texture, Controller controller){
+        this.position = position;
+        this.velocity = velocity;
+        this.texture = texture;
+        this.controller = controller;
+    }
+}
+</pre>
+<h4>Systems are just functions that take a GameState and return a GameStateModifier. System manager will contain all of the systems.</h4>
+<pre class="jsonExample col-md-auto">
+// Synchrounous
+public interface SystemManagerImpl {
+    // A system is a function.
+    GameStateModifidier ControlPlayer(IReadOnlyGameState gameState);
+    GameStateModifidier MovePlayer(IReadOnlyGameState gameState);
+    GameStateModifidier DrawPlayer(IReadOnlyGameState gameState);
+}
+public class SystemManager {
+    private readonly SystemManagerImpl _impl;
+
+    public SystemManager(SystemManagerImpl impl) {
+        _impl = impl;
+    }
+
+    public GameState Update(IReadOnlyGameState gameState) {
+        return gameState + GetModifications(gameState);
+    }
+
+    public IEnumerable&ltGameStateModifidier&gt GetModifications(IReadOnlyGameState gameState){
+        yield return _impl.ControlPlayer(gameState); 
+        yield return _impl.MovePlayer(gameState);
+        yield return _impl.DrawPlayer(gameState);
+    }    
+}
+// Asynchronous
+public interface AsyncSystemManagerImpl {
+    // A system is a function.
+    Task&ltIEnumerable&ltGameStateModifidier&gt&gt ControlPlayer(IReadOnlyGameState gameState);
+    Task&ltIEnumerable&ltGameStateModifidier&gt&gt MovePlayer(IReadOnlyGameState gameState);
+    Task&ltIEnumerable&ltGameStateModifidier&gt&gt DrawPlayer(IReadOnlyGameState gameState);
+}
+</pre>
+<h4>Other created structures</h4>
+<pre class="jsonExample col-md-auto">
+// Game State
+// 1. Every family will have a list defined.
+// 2. Every entity will have a map defined.
+// 3. Every system will have a system state associated with it.
+public class GameState : IReadOnlyGameState {
+    // Data
+    private float delta = 0;
+    private ulong frame = 0;
+
+    // Families
+    private List&ltMovable&gt movables = new List&ltMovable&gt();
+    private List&ltDrawable&gt drawables = new Lust&ltDrawable&gt();
+    private List&ltControllable&gt controllables = new List&ltControllable&gt();
+
+    // Entities
+    private Dictionary&ltint,Player&gt players = new Dictionary&ltint,Player&gt();
+
+    // IReadOnlyGameState
+    public float Delta => delta;
+    public ulong Frame => frame;
+    public IReadOnlyList&ltMovable&gt Movables => movables;
+    public IReadOnlyList&ltDrawable&gt Drawables => drawables;
+    public IReadOnlyList&ltControllable&gt Controllable => controllable;
+    public Dictionary&l&ltint,tPlayer&gt&gt Players{get;}
+    
+    // System States
+    public readonly SystemState MovePlayerState, DrawPlayerState, ControlPlayerState;
+
+    public void AddPlayer(Player player) {
+        players.Add(player.GetHashCode(), player);
+        movables.Add(player);
+        drawables.Add(player);
+        controllables.Add(player);
+    }
+
+    public static GameState operator+(IEnumerable&ltGameStateModifier&gt mods) {
+        GameState newState;
+        newState.players = this.Players.Clone();
+        foreach(var mod in mods)
+        {
+            foreach(var player in mod.PlayersToAdd)
+            {
+                newState.players.Add(player.GetHashCode(), player);
+            }
+            foreach(var playerToRemove in mod.PlayersToRemove)
+            {
+                newState.players.Remove(playerToRemove);
+            }
+        }
+        return newState;
+    }
 }
 
-// System manager will contain all of the systems
-public interface SystemManager
-{
-    // Systems are pure functions. The arguments are based on the families it takes as parameters. A list is always passed for the families. 
-    SystemReturnValue&ltMovable&gt MovePlayer(SystemState state, IReadOnlyList&ltMovable&gt movable);
-    SystemReturnValue&ltDrawable&gt DrawPlayer(SystemState state, IReadOnlyList&ltDrawable&gt drawable);
-    SystemReturnValue&ltControlable&gt ControlPlayer(SystemState state, IReadOnlyList&ltControlable&gt controllable);
-}
-//Each function will return the new state of the system and any changed components.
-public struct SystemReturnValue&ltT&gt {
-    // New system state
-    public readonly SystemState state;
+public interface IReadOnlyGameState {
+    // Data
+    public float Delta {get;}
+    public ulong Frame{get;}
 
-    // Item1 is the index of where the component was in the list     
-    // Item2 is the new component
-    public readonly IEnumerable&ltTuple&ltint, T&gt&gt changes;
+    // Families
+    public IReadOnlyList&ltMovable&gt Movables{get;}
+    public IReadOnlyList&ltDrawable&gt Drawables{get;}
+    public IReadOnlyList&ltControllable&gt Controllers{get;}
+
+    // Entities
+    public Dictionary&l&ltint,tPlayer&gt&gt Players{get;}
 }
+
+// Game State GameStateModifier
+// 1. Every family
+public struct GameStateModifidier {
+    public IEnumerable&ltPlayer&gt PlayersToAdd{get;}
+    public IEnumerable&ltint&gt PlayersToRemove{get;}
+
+    public IEnumerable&ltTuple&ltint,Position&gt&gt PositionChanges{get;}
+    public IEnumerable&ltTuple&ltint,Velocity&gt&gt VelocityChanges{get;}
+    public IEnumerable&ltTuple&ltint,Controller&gt&gt ControllerChanges{get;}
+    public IEnumerable&ltTuple&ltint,Texture&gt&gt TextureChanges{get;}
+}
+
 // A enum will be created and passed to every system function.
 public enum SystemState {
     On,
     Off
 }
-                        </pre>
+</pre>
                     </div>
                 </div>
             </div>

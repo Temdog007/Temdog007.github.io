@@ -81,24 +81,9 @@ const exampleArchitecture = {
         }
     ],
     systems : [
-        {
-            name : "movePlayer",
-            parameters : [
-                "movable"
-            ]
-        },
-        {
-            name : "drawPlayer",
-            parameters : [
-                "drawable"
-            ]
-        },
-        {
-            name : "controlPlayer",
-            parameters : [
-                "controllable"
-            ]
-        }
+        "controlPlayer",
+        "movePlayer",
+        "drwaPlayer"
     ]
 };
 
@@ -155,11 +140,7 @@ function update()
 
 $("#systems-button").click(() => 
 {
-    const system = {
-        name : `System${architecture.systems.length}`,
-        parameters : []
-    }
-    architecture.systems.push(system);
+    architecture.systems.push(`System${architecture.systems.length}`);
 
     updateSystemModel();
 });
@@ -510,7 +491,7 @@ function deleteSystem(evt)
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.system.name}' system?`))
+    if(!confirm(`Are you sure you want to delete the '${t.system}' system?`))
     {
         return;
     }
@@ -846,30 +827,10 @@ function updateSystemModel()
         input.setAttribute("type", "text");
         input.setAttribute("target", "system-name");
         input.system = system;
-        input.value = system.name;
+        input.value = system;
         topRow.appendChild(input);
 
         $('input', $(systemDiv)).each((_, t) =>  $(t).change(updateInput));
-
-        for(const parameter of system.parameters)
-        {
-            const row = document.createElement("div");
-            row.setAttribute("class", "row");
-            systemDiv.appendChild(row);
-
-            const label = document.createElement('label');
-            label.innerHTML = parameter;
-            label.setAttribute("class", "col");
-            row.appendChild(label);
-
-            const del = document.createElement("button");
-            del.innerHTML = "X";
-            del.setAttribute("class", "col-md-auto btn btn-warning");
-            del.system = system;
-            del.parameter = parameter;
-            $(del).click(deleteParameterFromSystem);
-            row.appendChild(del);
-        }
 
         const bottomRow = document.createElement("div");
         bottomRow.setAttribute("class", "row");
@@ -878,32 +839,6 @@ function updateSystemModel()
         const dropdown = document.createElement("div");
         dropdown.setAttribute("class", "dropdown");
         bottomRow.appendChild(dropdown);
-
-        const add = document.createElement("button");
-        add.setAttribute("class", "col btn-secondary btn");
-        add.setAttribute("type", "button");
-        add.setAttribute("id", `${system.name}dropdown`);
-        add.setAttribute('data-toggle', 'dropdown');
-        add.setAttribute("aria-haspopup", "true");
-        add.setAttribute("aria-expanded", "false");
-        add.innerHTML = "Add Family";
-        dropdown.appendChild(add);
-
-        const items = document.createElement("div");
-        items.setAttribute("class", "dropdown-menu");
-        items.setAttribute("aria-labelledby", `${system.name}dropdown`);
-        dropdown.appendChild(items);
-
-        for(const family of architecture.families)
-        {
-            const a = document.createElement('button');
-            a.setAttribute("class", "dropdown-item");
-            a.setAttribute("type", "button");
-            a.system = system;
-            a.innerHTML = family.name;
-            $(a).click(addParameterToSystem);
-            items.appendChild(a);
-        }
 
         const del = document.createElement("button");
         del.setAttribute("class", "col-md-auto btn-danger btn");
@@ -966,13 +901,7 @@ entities:
   - drawable
   - controllable
 systems:
-- name: movePlayer
-  parameters:
-  - movable
-- name: drawPlayer
-  parameters:
-  - drawable
-- name: controlPlayer
-  parameters:
-  - controllable
+- movePlayer
+- drawPlayer
+- controlPlayer
 `;
