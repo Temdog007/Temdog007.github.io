@@ -76,7 +76,7 @@ const exampleArchitecture = {
             families : [
                 "movable",
                 "drawable",
-                "controlable"
+                "controllable"
             ]
         }
     ],
@@ -96,7 +96,7 @@ const exampleArchitecture = {
         {
             name : "controllerPlayer",
             parameters : [
-                "controlable"
+                "controllable"
             ]
         }
     ]
@@ -150,11 +150,18 @@ function update()
     updateComponentsModel();
     updateFamiliesModel();
     updateEntitiesModel();
+    updateSystemModel();
 }
 
 $("#systems-button").click(() => 
 {
-    
+    const system = {
+        name : `System${architecture.systems.length}`,
+        parameters : []
+    }
+    architecture.systems.push(system);
+
+    updateSystemModel();
 });
 
 $("#components-button").click(() =>
@@ -197,7 +204,8 @@ function updateInput(evt)
     const comp = evt.target.component;
     const family = evt.target.family;
     const entity = evt.target.entity;
-    if(!comp && !family && !entity)
+    const system = evt.target.system;
+    if(!comp && !family && !entity && !system)
     {
         return;
     }
@@ -214,6 +222,9 @@ function updateInput(evt)
             break;
         case 'entity-name':
             entity.name = t.val();
+            break;
+        case 'system-name':
+            system.name = t.val();
             break;
         case 'property-name':
             comp.properties[t.attr('index')].name = t.val();
@@ -312,7 +323,7 @@ function addComponentToFamily(evt)
         return;
     }
 
-    var components = t.family.components;
+    const components = t.family.components;
     if(components.includes(t.innerHTML))
     {
         return;
@@ -341,7 +352,7 @@ function deleteComponentFromFamily(evt)
         return;
     }
 
-    var components = t.family.components;
+    const components = t.family.components;
     components.splice(components.indexOf(t.componentName), 1);
 
     updateFamiliesModel();
@@ -360,7 +371,7 @@ function addFamilyToEntity(evt)
         return;
     }
 
-    var families = t.entity.families;
+    const families = t.entity.families;
     if(families.includes(t.innerHTML))
     {
         return;
@@ -389,10 +400,57 @@ function deleteFamilyFromEntity(evt)
         return;
     }
 
-    var families = t.entity.families;
+    const families = t.entity.families;
     families.splice(families.indexOf(t.familyName), 1);
 
     updateEntitiesModel();
+}
+
+function addParameterToSystem(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.system)
+    {
+        return;
+    }
+
+    const parameters = t.system.parameters;
+    if(parameters.includes(t.innerHTML))
+    {
+        return;
+    } 
+
+    parameters.push(t.innerHTML);
+    updateSystemModel();
+}
+
+function deleteParameterFromSystem(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.system)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.parameter}' parameter from this system?`))
+    {
+        return;
+    }
+
+    const parameters = t.system.parameters;
+    parameters.splice(parameters.indexOf(t.parameter), 1);
+
+    updateSystemModel();
 }
 
 function deleteEntity(evt)
@@ -413,8 +471,8 @@ function deleteEntity(evt)
         return;
     }
 
-    architecture.families.splice(architecture.entities.indexOf(t.entity), 1);
-    updateComponentsModel();
+    architecture.entities.splice(architecture.entities.indexOf(t.entity), 1);
+    updateEntitiesModel();
 }
 
 function deleteFamily(evt)
@@ -435,8 +493,30 @@ function deleteFamily(evt)
         return;
     }
 
-    architecture.families.splice(architecture.components.indexOf(t.family), 1);
-    updateComponentsModel();
+    architecture.families.splice(architecture.families.indexOf(t.family), 1);
+    updateFamiliesModel();
+}
+
+function deleteSystem(evt)
+{
+    const t = evt.target;
+    if(!t)
+    {
+        return;
+    }
+
+    if(!t.system)
+    {
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete the '${t.system.name}' system?`))
+    {
+        return;
+    }
+
+    architecture.systems.splice(architecture.systems.indexOf(t.system), 1);
+    updateSystemModel();
 }
 
 function updateComponentsModel()
@@ -628,7 +708,7 @@ function updateFamiliesModel()
 
         for(const comp of architecture.components)
         {
-            var a = document.createElement('button');
+            const a = document.createElement('button');
             a.setAttribute("class", "dropdown-item");
             a.setAttribute("type", "button");
             a.family = family;
@@ -722,7 +802,7 @@ function updateEntitiesModel()
 
         for(const family of architecture.families)
         {
-            var a = document.createElement('button');
+            const a = document.createElement('button');
             a.setAttribute("class", "dropdown-item");
             a.setAttribute("type", "button");
             a.entity = entity;
@@ -743,9 +823,103 @@ function updateEntitiesModel()
     save();
 }
 
+function updateSystemModel()
+{
+    const div = document.getElementById("systems-list");
+    while(div.hasChildNodes())
+    {
+        div.lastChild.remove();
+    }
+
+    for(const system of architecture.systems)
+    {
+        const systemDiv = document.createElement("div");
+        systemDiv.setAttribute("class", "system-div p-2");
+        div.appendChild(systemDiv);
+
+        const topRow = document.createElement("div");
+        topRow.setAttribute("class", "row");
+        systemDiv.appendChild(topRow);
+
+        const input = document.createElement("input");
+        input.setAttribute("class", "col system-name-text");
+        input.setAttribute("type", "text");
+        input.setAttribute("target", "system-name");
+        input.system = system;
+        input.value = system.name;
+        topRow.appendChild(input);
+
+        $('input', $(systemDiv)).each((_, t) =>  $(t).change(updateInput));
+
+        for(const parameter of system.parameters)
+        {
+            const row = document.createElement("div");
+            row.setAttribute("class", "row");
+            systemDiv.appendChild(row);
+
+            const label = document.createElement('label');
+            label.innerHTML = parameter;
+            label.setAttribute("class", "col");
+            row.appendChild(label);
+
+            const del = document.createElement("button");
+            del.innerHTML = "X";
+            del.setAttribute("class", "col-md-auto btn btn-warning");
+            del.system = system;
+            del.parameter = parameter;
+            $(del).click(deleteParameterFromSystem);
+            row.appendChild(del);
+        }
+
+        const bottomRow = document.createElement("div");
+        bottomRow.setAttribute("class", "row");
+        systemDiv.appendChild(bottomRow);
+
+        const dropdown = document.createElement("div");
+        dropdown.setAttribute("class", "dropdown");
+        bottomRow.appendChild(dropdown);
+
+        const add = document.createElement("button");
+        add.setAttribute("class", "col btn-secondary btn");
+        add.setAttribute("type", "button");
+        add.setAttribute("id", `${system.name}dropdown`);
+        add.setAttribute('data-toggle', 'dropdown');
+        add.setAttribute("aria-haspopup", "true");
+        add.setAttribute("aria-expanded", "false");
+        add.innerHTML = "Add Family";
+        dropdown.appendChild(add);
+
+        const items = document.createElement("div");
+        items.setAttribute("class", "dropdown-menu");
+        items.setAttribute("aria-labelledby", `${system.name}dropdown`);
+        dropdown.appendChild(items);
+
+        for(const family of architecture.families)
+        {
+            const a = document.createElement('button');
+            a.setAttribute("class", "dropdown-item");
+            a.setAttribute("type", "button");
+            a.system = system;
+            a.innerHTML = family.name;
+            $(a).click(addParameterToSystem);
+            items.appendChild(a);
+        }
+
+        const del = document.createElement("button");
+        del.setAttribute("class", "col-md-auto btn-danger btn");
+        del.setAttribute("type", "button");
+        del.system = system;
+        $(del).click(deleteSystem);
+        del.innerHTML = "X";
+        topRow.appendChild(del);
+    }
+
+    save();
+}
+
 function save()
 {
-    var str = JSON.stringify(architecture, undefined, 2);
+    const str = JSON.stringify(architecture, undefined, 2);
     localStorage.setItem(storageKey, str);
     $("#json-content").html(str);
 }
@@ -790,7 +964,7 @@ entities:
   families:
   - movable
   - drawable
-  - controlable
+  - controllable
 systems:
 - name: movePlayer
   parameters:
@@ -800,5 +974,5 @@ systems:
   - drawable
 - name: controllerPlayer
   parameters:
-  - controlable
+  - controllable
 `;
