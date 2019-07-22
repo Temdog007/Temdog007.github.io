@@ -939,12 +939,12 @@ function capitalize(str)
 
 $("#generate-csharp").click(function()
 {
-    var lines = [];
+    const lines = [];
     lines.push("namespace GArch_CSharp_Example");
     lines.push("{");
     
     // components
-    for(var comp of architecture.components)
+    for(const comp of architecture.components)
     {
         if(hasArray(comp))
         {
@@ -956,7 +956,7 @@ $("#generate-csharp").click(function()
         }
         lines.push("{");
 
-        for(var prop of comp.properties)
+        for(const prop of comp.properties)
         {
             if(prop.isArray === true)
             {
@@ -968,6 +968,42 @@ $("#generate-csharp").click(function()
                 lines.push(`public ${prop.type} ${prop.name};`);
             }
         }
+        lines.push("}");
+    }
+
+    //families
+    for(const fam of architecture.families)
+    {
+        lines.push(`public interface I${capitalize(fam.name)}`);
+        lines.push("{");
+        for(const comp of fam.components)
+        {
+            lines.push(`${capitalize(comp)} ${capitalize(comp)} { get; }`);
+        }
+        lines.push("}");
+    }
+
+    // entities
+    for(const entity of architecture.entities)
+    {
+        const interfaces = [];
+        const components = new Set();
+        for(const fam of entity.families)
+        {
+            interfaces.push(`I${capitalize(fam)}`);
+            const family = architecture.families.find(f => f.name == fam);
+            if(!family){continue;}
+
+            for(const comp of family.components)
+            {
+                components.add(`public ${capitalize(comp)} ${comp};`);
+                components.add(`public ${capitalize(comp)} ${capitalize(comp)} => ${comp};`);
+            }
+        }
+
+        lines.push(`public struct ${capitalize(entity.name)} : ` + interfaces.join(", "));
+        lines.push("{");
+        lines.push([...components].join("\n"));
         lines.push("}");
     }
 
