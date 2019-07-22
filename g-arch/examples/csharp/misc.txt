@@ -19,10 +19,10 @@ namespace GArch_CSharp_Example
 
         #region Families
 
-        IReadOnlyCollection<KeyValuePair<int, IControllable>> Controllables { get; }
-        IReadOnlyCollection<KeyValuePair<int, IDrawable>> Drawables { get; }
-        IReadOnlyCollection<KeyValuePair<int, IMovable>> Movables { get; }
-        IReadOnlyCollection<KeyValuePair<int, Player>> Players { get; }
+        IReadOnlyCollection&ltKeyValuePair&ltint, IControllable&gt&gt Controllables { get; }
+        IReadOnlyCollection&ltKeyValuePair&ltint, IDrawable&gt&gt Drawables { get; }
+        IReadOnlyCollection&ltKeyValuePair&ltint, IMovable&gt&gt Movables { get; }
+        IReadOnlyCollection&ltKeyValuePair&ltint, Player&gt&gt Players { get; }
 
         #endregion Families
 
@@ -39,10 +39,10 @@ namespace GArch_CSharp_Example
     {
         #region Data
 
-        private readonly Dictionary<int, IControllable> controllables = new Dictionary<int, IControllable>();
-        private readonly Dictionary<int, IDrawable> drawables = new Dictionary<int, IDrawable>();
-        private readonly Dictionary<int, IMovable> movables = new Dictionary<int, IMovable>();
-        private readonly Dictionary<int, Player> players = new Dictionary<int, Player>();
+        private readonly Dictionary&ltint, IControllable&gt controllables = new Dictionary&ltint, IControllable&gt();
+        private readonly Dictionary&ltint, IDrawable&gt drawables = new Dictionary&ltint, IDrawable&gt();
+        private readonly Dictionary&ltint, IMovable&gt movables = new Dictionary&ltint, IMovable&gt();
+        private readonly Dictionary&ltint, Player&gt players = new Dictionary&ltint, Player&gt();
 
         #endregion Data
 
@@ -58,11 +58,11 @@ namespace GArch_CSharp_Example
 
         #region Families
 
-        public IReadOnlyCollection<KeyValuePair<int, IControllable>> Controllables => controllables;
-        public IReadOnlyCollection<KeyValuePair<int, IDrawable>> Drawables => drawables;
+        public IReadOnlyCollection&ltKeyValuePair&ltint, IControllable&gt&gt Controllables =&gt controllables;
+        public IReadOnlyCollection&ltKeyValuePair&ltint, IDrawable&gt&gt Drawables =&gt drawables;
 
-        public IReadOnlyCollection<KeyValuePair<int, IMovable>> Movables => movables;
-        public IReadOnlyCollection<KeyValuePair<int, Player>> Players => players;
+        public IReadOnlyCollection&ltKeyValuePair&ltint, IMovable&gt&gt Movables =&gt movables;
+        public IReadOnlyCollection&ltKeyValuePair&ltint, Player&gt&gt Players =&gt players;
 
         #endregion Families
 
@@ -84,7 +84,7 @@ namespace GArch_CSharp_Example
             controllables.Add(code, player);
         }
 
-        public void Modify(GameStateModification gameStateModification)
+        public void AddModifications(GameStateModification gameStateModification)
         {
             foreach (var player in gameStateModification.PlayersToAdd)
             {
@@ -120,28 +120,28 @@ namespace GArch_CSharp_Example
     {
         #region Entity Changes
 
-        private readonly List<Player> playersToAdd = new List<Player>();
-        private readonly List<int> playersToRemove = new List<int>();
+        private readonly List&ltPlayer&gt playersToAdd = new List&ltPlayer&gt();
+        private readonly List&ltint&gt playersToRemove = new List&ltint&gt();
 
-        public IEnumerable<Player> PlayersToAdd => playersToAdd;
-        public IEnumerable<int> PlayersToRemove => playersToRemove;
+        public IEnumerable&ltPlayer&gt PlayersToAdd =&gt playersToAdd;
+        public IEnumerable&ltint&gt PlayersToRemove =&gt playersToRemove;
 
         #endregion Entity Changes
 
         #region Component Changes
 
-        private readonly List<KeyValuePair<int, Controller>> controllerChanges = new List<KeyValuePair<int, Controller>>();
+        private readonly List&ltKeyValuePair&ltint, Controller&gt&gt controllerChanges = new List&ltKeyValuePair&ltint, Controller&gt&gt();
 
-        private readonly List<KeyValuePair<int, Position>> positionChanges = new List<KeyValuePair<int, Position>>();
+        private readonly List&ltKeyValuePair&ltint, Position&gt&gt positionChanges = new List&ltKeyValuePair&ltint, Position&gt&gt();
 
-        private readonly List<KeyValuePair<int, Texture>> textureChanges = new List<KeyValuePair<int, Texture>>();
+        private readonly List&ltKeyValuePair&ltint, Texture&gt&gt textureChanges = new List&ltKeyValuePair&ltint, Texture&gt&gt();
 
-        private readonly List<KeyValuePair<int, Velocity>> velocityChanges = new List<KeyValuePair<int, Velocity>>();
+        private readonly List&ltKeyValuePair&ltint, Velocity&gt&gt velocityChanges = new List&ltKeyValuePair&ltint, Velocity&gt&gt();
 
-        public IEnumerable<KeyValuePair<int, Controller>> ControllerChanges => controllerChanges;
-        public IEnumerable<KeyValuePair<int, Position>> PositionChanges => positionChanges;
-        public IEnumerable<KeyValuePair<int, Texture>> TextureChanges => textureChanges;
-        public IEnumerable<KeyValuePair<int, Velocity>> VelocityChanges => velocityChanges;
+        public IEnumerable&ltKeyValuePair&ltint, Controller&gt&gt ControllerChanges =&gt controllerChanges;
+        public IEnumerable&ltKeyValuePair&ltint, Position&gt&gt PositionChanges =&gt positionChanges;
+        public IEnumerable&ltKeyValuePair&ltint, Texture&gt&gt TextureChanges =&gt textureChanges;
+        public IEnumerable&ltKeyValuePair&ltint, Velocity&gt&gt VelocityChanges =&gt velocityChanges;
 
         #endregion Component Changes
 
@@ -161,7 +161,7 @@ namespace GArch_CSharp_Example
 
     internal static class Extensions
     {
-        public static void Deconstruct<T1, T2>(this KeyValuePair<T1, T2> pair, out T1 key, out T2 value)
+        public static void Deconstruct&ltT1, T2&gt(this KeyValuePair&ltT1, T2&gt pair, out T1 key, out T2 value)
         {
             key = pair.Key;
             value = pair.Value;

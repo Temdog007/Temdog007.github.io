@@ -860,48 +860,66 @@ function save()
 }
 
 document.getElementById("fullJsonExample").innerHTML = JSON.stringify(exampleArchitecture,  undefined, 2);
-document.getElementById("fullYamlExample").innerHTML = `components:
-- name: position
-  properties:
-  - name: x
-    type: float
-  - name: y
-    type: float
-- name: velocity
-  properties:
-  - name: x
-    type: float
-  - name: y
-    type: float
-- name: controller
-  properties:
-  - name: controllerType
-    type: string
-- name: texture
-  properties:
-  - name: textureFilePath
-    type: string
-families:
-- name: movable
-  components:
-  - position
-  - velocity
-- name: drawable
-  components:
-  - position
-  - texture
-- name: controllable
-  components:
-  - velocity
-  - controller
-entities:
-- name: player
-  families:
-  - movable
-  - drawable
-  - controllable
-systems:
-- movePlayer
-- drawPlayer
-- controlPlayer
-`;
+
+function handleResponse(response, id)
+{
+    if(response.readyState === 4)
+    {
+        if(response.status === 200 || response.status == 0)
+        {
+            document.getElementById(id).innerHTML = response.responseText;
+        }
+        else
+        {
+            console.error(response);
+        }
+    }
+}
+
+const yamlFile = new XMLHttpRequest();
+yamlFile.open("GET", "/g-arch/examples/yaml/yaml-example.yaml", true);
+yamlFile.onreadystatechange = function()
+{
+    handleResponse(yamlFile, "fullYamlExample");
+}
+yamlFile.send(null);
+
+const csharpComponents = new XMLHttpRequest();
+csharpComponents.open("GET", "/g-arch/examples/csharp/components.txt", true);
+csharpComponents.onreadystatechange = function()
+{
+    handleResponse(csharpComponents, "csharp-components-example");
+}
+csharpComponents.send(null);
+
+const csharpEntities = new XMLHttpRequest();
+csharpEntities.open("GET", "/g-arch/examples/csharp/entities.txt", true);
+csharpEntities.onreadystatechange = function()
+{
+    handleResponse(csharpEntities, "csharp-entities-example");
+}
+csharpEntities.send(null);
+
+const csharpFamilies = new XMLHttpRequest();
+csharpFamilies.open("GET", "/g-arch/examples/csharp/families.txt", true);
+csharpFamilies.onreadystatechange = function()
+{
+    handleResponse(csharpFamilies, "csharp-families-example");
+}
+csharpFamilies.send(null);
+
+const csharpSystems = new XMLHttpRequest();
+csharpSystems.open("GET", "/g-arch/examples/csharp/systems.txt", true);
+csharpSystems.onreadystatechange = function()
+{
+    handleResponse(csharpSystems, "csharp-systems-example");
+}
+csharpSystems.send(null);
+
+const csharpMisc = new XMLHttpRequest();
+csharpMisc.open("GET", "/g-arch/examples/csharp/misc.txt", true);
+csharpMisc.onreadystatechange = function()
+{
+    handleResponse(csharpMisc, "csharp-misc-example");
+}
+csharpMisc.send(null);
