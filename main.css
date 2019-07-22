@@ -142,3 +142,8 @@ pre {
 .generateButton{
     margin-right : 1vw;
 }
+
+textarea {
+    width: 75vw;
+    resize :none;
+}

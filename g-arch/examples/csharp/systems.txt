@@ -32,7 +32,7 @@ namespace GArch_CSharp_Example
             _impl.MovePlayer(gameState, movePlayerModification);
             _impl.DrawPlayer(gameState, drawPlayerModification);
 
-            Modify(newGameState);
+            UpdateGameState(gameState, newGameState);
         }
 
         public async Task UpdateAsync(IReadOnlyGameState gameState, GameState newGameState)
@@ -45,14 +45,15 @@ namespace GArch_CSharp_Example
                 Task.Run(() => _impl.DrawPlayer(gameState, drawPlayerModification))
             );
 
-            Modify(newGameState);
+            UpdateGameState(gameState, newGameState);
         }
 
-        private void Modify(GameState newGameState)
+        private void UpdateGameState(IReadOnlyGameState oldGameState, GameState newGameState)
         {
-            newGameState.AddModifications(controlPlayerModification);
-            newGameState.AddModifications(movePlayerModification);
-            newGameState.AddModifications(drawPlayerModification);
+            newGameState.Copy(oldGameState);
+            newGameState.AddModification(controlPlayerModification);
+            newGameState.AddModification(movePlayerModification);
+            newGameState.AddModification(drawPlayerModification);
         }
 
         private void Reset()

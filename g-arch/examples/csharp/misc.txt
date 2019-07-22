@@ -2,12 +2,6 @@ using System.Collections.Generic;
 
 namespace GArch_CSharp_Example
 {
-    public enum SystemState : byte
-    {
-        Off,
-        On
-    }
-
     public interface IReadOnlyGameState
     {
         #region Data
@@ -19,18 +13,18 @@ namespace GArch_CSharp_Example
 
         #region Families
 
-        IReadOnlyCollection&ltKeyValuePair&ltint, IControllable&gt&gt Controllables { get; }
-        IReadOnlyCollection&ltKeyValuePair&ltint, IDrawable&gt&gt Drawables { get; }
-        IReadOnlyCollection&ltKeyValuePair&ltint, IMovable&gt&gt Movables { get; }
-        IReadOnlyCollection&ltKeyValuePair&ltint, Player&gt&gt Players { get; }
+        IReadOnlyCollection<KeyValuePair<int, IControllable>> Controllables { get; }
+        IReadOnlyCollection<KeyValuePair<int, IDrawable>> Drawables { get; }
+        IReadOnlyCollection<KeyValuePair<int, IMovable>> Movables { get; }
+        IReadOnlyCollection<KeyValuePair<int, Player>> Players { get; }
 
         #endregion Families
 
         #region System States
 
-        SystemState ControlPlayerState { get; }
-        SystemState DrawPlayerState { get; }
-        SystemState MovePlayerState { get; }
+        int ControlPlayerState { get; }
+        int DrawPlayerState { get; }
+        int MovePlayerState { get; }
 
         #endregion System States
     }
@@ -39,10 +33,10 @@ namespace GArch_CSharp_Example
     {
         #region Data
 
-        private readonly Dictionary&ltint, IControllable&gt controllables = new Dictionary&ltint, IControllable&gt();
-        private readonly Dictionary&ltint, IDrawable&gt drawables = new Dictionary&ltint, IDrawable&gt();
-        private readonly Dictionary&ltint, IMovable&gt movables = new Dictionary&ltint, IMovable&gt();
-        private readonly Dictionary&ltint, Player&gt players = new Dictionary&ltint, Player&gt();
+        private readonly Dictionary<int, IControllable> controllables = new Dictionary<int, IControllable>();
+        private readonly Dictionary<int, IDrawable> drawables = new Dictionary<int, IDrawable>();
+        private readonly Dictionary<int, IMovable> movables = new Dictionary<int, IMovable>();
+        private readonly Dictionary<int, Player> players = new Dictionary<int, Player>();
 
         #endregion Data
 
@@ -58,33 +52,25 @@ namespace GArch_CSharp_Example
 
         #region Families
 
-        public IReadOnlyCollection&ltKeyValuePair&ltint, IControllable&gt&gt Controllables =&gt controllables;
-        public IReadOnlyCollection&ltKeyValuePair&ltint, IDrawable&gt&gt Drawables =&gt drawables;
+        public IReadOnlyCollection<KeyValuePair<int, IControllable>> Controllables => controllables;
+        public IReadOnlyCollection<KeyValuePair<int, IDrawable>> Drawables => drawables;
 
-        public IReadOnlyCollection&ltKeyValuePair&ltint, IMovable&gt&gt Movables =&gt movables;
-        public IReadOnlyCollection&ltKeyValuePair&ltint, Player&gt&gt Players =&gt players;
+        public IReadOnlyCollection<KeyValuePair<int, IMovable>> Movables => movables;
+        public IReadOnlyCollection<KeyValuePair<int, Player>> Players => players;
 
         #endregion Families
 
         #region System State
-        public SystemState MovePlayerState { get; private set; }
-        public SystemState DrawPlayerState { get; private set; }
-        public SystemState ControlPlayerState { get; private set; }
+
+        public int ControlPlayerState { get; private set; }
+        public int DrawPlayerState { get; private set; }
+        public int MovePlayerState { get; private set; }
 
         #endregion System State
 
         #endregion IReadOnlyGameState
 
-        private void AddPlayer(Player player)
-        {
-            var code = player.GetHashCode();
-            players.Add(code, player);
-            movables.Add(code, player);
-            drawables.Add(code, player);
-            controllables.Add(code, player);
-        }
-
-        public void AddModifications(GameStateModification gameStateModification)
+        internal void AddModification(GameStateModification gameStateModification)
         {
             foreach (var player in gameStateModification.PlayersToAdd)
             {
@@ -94,17 +80,53 @@ namespace GArch_CSharp_Example
             {
                 RemovePlayer(playerToRemove);
             }
-            foreach (var (index, position) in gameStateModification.PositionChanges)
+            foreach (var pair in gameStateModification.PositionChanges)
             {
-                if (players.TryGetValue(index, out var player))
+                if (players.TryGetValue(pair.Key, out var player))
                 {
-                    player.position = position;
+                    player.position = pair.Value;
                     break;
                 }
             }
             MovePlayerState = gameStateModification.newMovePlayerState;
             DrawPlayerState = gameStateModification.newDrawPlayerState;
             ControlPlayerState = gameStateModification.newControlPlayerState;
+        }
+
+        internal void Copy(IReadOnlyGameState state)
+        {
+            controllables.Clear();
+            foreach (var pair in state.Controllables)
+            {
+                controllables.Add(pair.Key, pair.Value);
+            }
+
+            drawables.Clear();
+            foreach (var pair in state.Drawables)
+            {
+                drawables.Add(pair.Key, pair.Value);
+            }
+
+            movables.Clear();
+            foreach (var pair in state.Movables)
+            {
+                movables.Add(pair.Key, pair.Value);
+            }
+
+            players.Clear();
+            foreach (var pair in state.Players)
+            {
+                players.Add(pair.Key, pair.Value);
+            }
+        }
+
+        private void AddPlayer(Player player)
+        {
+            var code = player.GetHashCode();
+            players.Add(code, player);
+            movables.Add(code, player);
+            drawables.Add(code, player);
+            controllables.Add(code, player);
         }
 
         private void RemovePlayer(int code)
@@ -120,32 +142,32 @@ namespace GArch_CSharp_Example
     {
         #region Entity Changes
 
-        private readonly List&ltPlayer&gt playersToAdd = new List&ltPlayer&gt();
-        private readonly List&ltint&gt playersToRemove = new List&ltint&gt();
+        private readonly List<Player> playersToAdd = new List<Player>();
+        private readonly List<int> playersToRemove = new List<int>();
 
-        public IEnumerable&ltPlayer&gt PlayersToAdd =&gt playersToAdd;
-        public IEnumerable&ltint&gt PlayersToRemove =&gt playersToRemove;
+        public IEnumerable<Player> PlayersToAdd => playersToAdd;
+        public IEnumerable<int> PlayersToRemove => playersToRemove;
 
         #endregion Entity Changes
 
         #region Component Changes
 
-        private readonly List&ltKeyValuePair&ltint, Controller&gt&gt controllerChanges = new List&ltKeyValuePair&ltint, Controller&gt&gt();
+        private readonly List<KeyValuePair<int, Controller>> controllerChanges = new List<KeyValuePair<int, Controller>>();
 
-        private readonly List&ltKeyValuePair&ltint, Position&gt&gt positionChanges = new List&ltKeyValuePair&ltint, Position&gt&gt();
+        private readonly List<KeyValuePair<int, Position>> positionChanges = new List<KeyValuePair<int, Position>>();
 
-        private readonly List&ltKeyValuePair&ltint, Texture&gt&gt textureChanges = new List&ltKeyValuePair&ltint, Texture&gt&gt();
+        private readonly List<KeyValuePair<int, Texture>> textureChanges = new List<KeyValuePair<int, Texture>>();
 
-        private readonly List&ltKeyValuePair&ltint, Velocity&gt&gt velocityChanges = new List&ltKeyValuePair&ltint, Velocity&gt&gt();
+        private readonly List<KeyValuePair<int, Velocity>> velocityChanges = new List<KeyValuePair<int, Velocity>>();
 
-        public IEnumerable&ltKeyValuePair&ltint, Controller&gt&gt ControllerChanges =&gt controllerChanges;
-        public IEnumerable&ltKeyValuePair&ltint, Position&gt&gt PositionChanges =&gt positionChanges;
-        public IEnumerable&ltKeyValuePair&ltint, Texture&gt&gt TextureChanges =&gt textureChanges;
-        public IEnumerable&ltKeyValuePair&ltint, Velocity&gt&gt VelocityChanges =&gt velocityChanges;
+        public IEnumerable<KeyValuePair<int, Controller>> ControllerChanges => controllerChanges;
+        public IEnumerable<KeyValuePair<int, Position>> PositionChanges => positionChanges;
+        public IEnumerable<KeyValuePair<int, Texture>> TextureChanges => textureChanges;
+        public IEnumerable<KeyValuePair<int, Velocity>> VelocityChanges => velocityChanges;
 
         #endregion Component Changes
 
-        public SystemState newMovePlayerState, newDrawPlayerState, newControlPlayerState;
+        public int newMovePlayerState, newDrawPlayerState, newControlPlayerState;
 
         internal void Reset()
         {
@@ -156,15 +178,6 @@ namespace GArch_CSharp_Example
             positionChanges.Clear();
             textureChanges.Clear();
             velocityChanges.Clear();
-        }
-    }
-
-    internal static class Extensions
-    {
-        public static void Deconstruct&ltT1, T2&gt(this KeyValuePair&ltT1, T2&gt pair, out T1 key, out T2 value)
-        {
-            key = pair.Key;
-            value = pair.Value;
         }
     }
 }

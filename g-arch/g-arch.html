@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="generation/csharp-generation.js"></script>
     <script async src="g-arch.js" type="application/javascript"></script>
 </head>
 
@@ -182,26 +183,26 @@
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='json-example-help' role='tabpanel' aria-labelledby="json-example-help-tab">
-                        <pre class="jsonExample" id="fullJsonExample"></pre>
+                        <textarea readonly class="jsonExample" id="fullJsonExample"></textarea>
                     </div>
                     <div class='tab-pane fade' id='yaml-example-help' role='tabpanel' aria-labelledby="yaml-example-help'">
-                        <pre class="yamlExample" id="fullYamlExample"></pre>
+                        <textarea readonly class="yamlExample" id="fullYamlExample"></textarea>
                     </div>
                     <div class="tab-pane fade" id="csharp-example-help" role="tabpanel" aria-labelledby="csharp-example-help">
                         <h1>C#</h1>
                         <h4>Components are structs</h4>
-                        <pre class="jsonExample col-md-auto" id="csharp-components-example"></pre>
+                        <textarea readonly class="jsonExample" id="csharp-components-example"></textarea>
                         <h4>Families are interfaces</h4>
-                        <pre class="jsonExample col-md-auto" id="csharp-families-example"></pre>
+                        <textarea readonly class="jsonExample" id="csharp-families-example"></textarea>
                         <h4>Entities are structs</h4>
-                        <pre class="jsonExample col-md-auto" id="csharp-entities-example"></pre>
+                        <textarea readonly class="jsonExample" id="csharp-entities-example"></textarea>
                         <h4>
                             Systems are just functions that take a GameState and return a GameStateModifier. In C#, creating new object should be avoided. 
                             So, a GameStateModifier will be passed to prevent allocation. System manager will contain all of the systems.
                         </h4>
-                        <pre class="jsonExample col-md-auto" id="csharp-systems-example"></pre>
+                        <textarea readonly class="jsonExample" id="csharp-systems-example"></textarea>
                         <h4>Other created structures</h4>
-                        <pre class="jsonExample col-md-auto" id="csharp-misc-example"></pre>
+                        <textarea readonly class="jsonExample" id="csharp-misc-example"></textarea>
                     </div>
                     <div class="tab-pane fade" id="typescript-example-help" role="tabpanel" aria-labelledby="typescript-example-help">TODO...</div>
                     <div class="tab-pane fade" id="rust-example-help" role="tabpanel" aria-labelledby="rust-example-help">TODO...</div>
@@ -233,7 +234,7 @@
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-typescript">Typescript</button>
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-rust">Rust</button>
             </div>
-            <textarea readonly id='generated-content' style="width: 100vw; height: 100vh"></textarea>
+            <textarea readonly id='generated-content'></textarea>
         </div>
     </div>
 </body>

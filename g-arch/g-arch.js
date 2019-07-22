@@ -87,7 +87,7 @@ const exampleArchitecture = {
     systems : [
         "controlPlayer",
         "movePlayer",
-        "drwaPlayer"
+        "drawPlayer"
     ]
 };
 
@@ -884,11 +884,20 @@ function handleResponse(response, id)
     }
 }
 
+function updateSize()
+{
+    $("textarea").each(function(_, t){
+        const matches = $(t).val().match(/\n/g);
+        $(t).attr('rows', matches ? matches.length : 2);
+    });    
+}
+
 const yamlFile = new XMLHttpRequest();
 yamlFile.open("GET", "/g-arch/examples/yaml/yaml-example.yaml", true);
 yamlFile.onreadystatechange = function()
 {
     handleResponse(yamlFile, "fullYamlExample");
+    updateSize();
 }
 yamlFile.send(null);
 
@@ -897,6 +906,7 @@ csharpComponents.open("GET", "/g-arch/examples/csharp/components.txt", true);
 csharpComponents.onreadystatechange = function()
 {
     handleResponse(csharpComponents, "csharp-components-example");
+    updateSize();
 }
 csharpComponents.send(null);
 
@@ -905,6 +915,7 @@ csharpEntities.open("GET", "/g-arch/examples/csharp/entities.txt", true);
 csharpEntities.onreadystatechange = function()
 {
     handleResponse(csharpEntities, "csharp-entities-example");
+    updateSize();
 }
 csharpEntities.send(null);
 
@@ -913,6 +924,7 @@ csharpFamilies.open("GET", "/g-arch/examples/csharp/families.txt", true);
 csharpFamilies.onreadystatechange = function()
 {
     handleResponse(csharpFamilies, "csharp-families-example");
+    updateSize();
 }
 csharpFamilies.send(null);
 
@@ -921,6 +933,7 @@ csharpSystems.open("GET", "/g-arch/examples/csharp/systems.txt", true);
 csharpSystems.onreadystatechange = function()
 {
     handleResponse(csharpSystems, "csharp-systems-example");
+    updateSize();
 }
 csharpSystems.send(null);
 
@@ -929,85 +942,12 @@ csharpMisc.open("GET", "/g-arch/examples/csharp/misc.txt", true);
 csharpMisc.onreadystatechange = function()
 {
     handleResponse(csharpMisc, "csharp-misc-example");
+    updateSize();
 }
 csharpMisc.send(null);
 
-function capitalize(str)
-{
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 $("#generate-csharp").click(function()
 {
-    const lines = [];
-    lines.push("namespace GArch_CSharp_Example");
-    lines.push("{");
-    
-    // components
-    for(const comp of architecture.components)
-    {
-        if(hasArray(comp))
-        {
-            lines.push(`public unsafe struct ${capitalize(comp.name)}`);
-        }
-        else
-        {
-            lines.push(`public struct ${capitalize(comp.name)}`);
-        }
-        lines.push("{");
-
-        for(const prop of comp.properties)
-        {
-            if(prop.isArray === true)
-            {
-                lines.push(`public const int ${prop.name.toUpperCase()}_LENGTH = ${prop.length};`);
-                lines.push(`public fixed char ${prop.name}[${prop.name.toUpperCase()}_LENGTH];`);
-            }
-            else
-            {
-                lines.push(`public ${prop.type} ${prop.name};`);
-            }
-        }
-        lines.push("}");
-    }
-
-    //families
-    for(const fam of architecture.families)
-    {
-        lines.push(`public interface I${capitalize(fam.name)}`);
-        lines.push("{");
-        for(const comp of fam.components)
-        {
-            lines.push(`${capitalize(comp)} ${capitalize(comp)} { get; }`);
-        }
-        lines.push("}");
-    }
-
-    // entities
-    for(const entity of architecture.entities)
-    {
-        const interfaces = [];
-        const components = new Set();
-        for(const fam of entity.families)
-        {
-            interfaces.push(`I${capitalize(fam)}`);
-            const family = architecture.families.find(f => f.name == fam);
-            if(!family){continue;}
-
-            for(const comp of family.components)
-            {
-                components.add(`public ${capitalize(comp)} ${comp};`);
-                components.add(`public ${capitalize(comp)} ${capitalize(comp)} => ${comp};`);
-            }
-        }
-
-        lines.push(`public struct ${capitalize(entity.name)} : ` + interfaces.join(", "));
-        lines.push("{");
-        lines.push([...components].join("\n"));
-        lines.push("}");
-    }
-
-    lines.push("}");
-
-    $("#generated-content").val(lines.join("\n"));
+    $("#generated-content").val(generateCSharp(architecture).join("\n"));
+    updateSize();
 });
