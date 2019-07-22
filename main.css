@@ -138,3 +138,7 @@ pre {
     background-color: var(--theme-color3);
     color: var(--theme-color9);
 }
+
+.generateButton{
+    margin-right : 1vw;
+}

@@ -33,7 +33,9 @@ const exampleArchitecture = {
             properties : [
                 {
                     name : "controllerType",
-                    type : "string"
+                    type : "char",
+                    isArray : true,
+                    length : 10
                 }
             ]
         },
@@ -42,7 +44,9 @@ const exampleArchitecture = {
             properties : [
                 {
                     name : "textureFilePath",
-                    type : "string"
+                    type : "char",
+                    isArray : true,
+                    length : 10
                 }
             ]
         }
@@ -99,8 +103,7 @@ const typeOptions = [
     'long',
     'ulong',
     'float',
-    'double',
-    'string',
+    'double'
 ];
 
 class Component
@@ -116,6 +119,11 @@ class Component
             new Property()
         ];
     }
+}
+
+function hasArray(component)
+{
+    return component.properties.some(p => p.isArray === true);
 }
 
 class Property 
@@ -923,3 +931,47 @@ csharpMisc.onreadystatechange = function()
     handleResponse(csharpMisc, "csharp-misc-example");
 }
 csharpMisc.send(null);
+
+function capitalize(str)
+{
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+$("#generate-csharp").click(function()
+{
+    var lines = [];
+    lines.push("namespace GArch_CSharp_Example");
+    lines.push("{");
+    
+    // components
+    for(var comp of architecture.components)
+    {
+        if(hasArray(comp))
+        {
+            lines.push(`public unsafe struct ${capitalize(comp.name)}`);
+        }
+        else
+        {
+            lines.push(`public struct ${capitalize(comp.name)}`);
+        }
+        lines.push("{");
+
+        for(var prop of comp.properties)
+        {
+            if(prop.isArray === true)
+            {
+                lines.push(`public const int ${prop.name.toUpperCase()}_LENGTH = ${prop.length};`);
+                lines.push(`public fixed char ${prop.name}[${prop.name.toUpperCase()}_LENGTH];`);
+            }
+            else
+            {
+                lines.push(`public ${prop.type} ${prop.name};`);
+            }
+        }
+        lines.push("}");
+    }
+
+    lines.push("}");
+
+    $("#generated-content").val(lines.join("\n"));
+});
