@@ -16,9 +16,14 @@ namespace GArch_CSharp_Example
         IReadOnlyCollection<KeyValuePair<int, IControllable>> Controllables { get; }
         IReadOnlyCollection<KeyValuePair<int, IDrawable>> Drawables { get; }
         IReadOnlyCollection<KeyValuePair<int, IMovable>> Movables { get; }
-        IReadOnlyCollection<KeyValuePair<int, Player>> Players { get; }
 
         #endregion Families
+
+        #region Entity
+
+        IReadOnlyCollection<KeyValuePair<int, Player>> Players { get; }
+
+        #endregion
 
         #region System States
 
@@ -44,9 +49,9 @@ namespace GArch_CSharp_Example
 
         #region Data
 
-        public float Delta { get; set; }
+        public float Delta { get; private set; }
 
-        public ulong Frame { get; set; }
+        public ulong Frame { get; private set; }
 
         #endregion Data
 

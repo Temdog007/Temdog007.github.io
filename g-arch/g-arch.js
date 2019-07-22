@@ -951,3 +951,4 @@ $("#generate-csharp").click(function()
     $("#generated-content").val(generateCSharp(architecture).join("\n"));
     updateSize();
 });
+$("#generated-content").val("");

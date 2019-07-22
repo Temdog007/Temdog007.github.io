@@ -74,7 +74,6 @@
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="="true" aria-expanded="false">Code Generation Examples</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" id="csharp-example-tab" data-toggle="tab" href="#csharp-example-help" aria-controls="csharp-example-help" aria-selected="false">C#</a>
-                                <a class="dropdown-item" id="typescript-example-tab" data-toggle="tab" href="#typescript-example-help" aria-controls="typescript-example-help" aria-selected="false">TypeScript</a>
                                 <a class="dropdown-item" id="rust-example-tab" data-toggle="tab" href="#rust-example-help" aria-controls="rust-example-help" aria-selected="false">Rust</a>
                             </div>
                         </li>
@@ -204,7 +203,6 @@
                         <h4>Other created structures</h4>
                         <textarea readonly class="jsonExample" id="csharp-misc-example"></textarea>
                     </div>
-                    <div class="tab-pane fade" id="typescript-example-help" role="tabpanel" aria-labelledby="typescript-example-help">TODO...</div>
                     <div class="tab-pane fade" id="rust-example-help" role="tabpanel" aria-labelledby="rust-example-help">TODO...</div>
                 </div>
             </div>
@@ -228,10 +226,9 @@
         <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
             <textarea readonly id='json-content' style="width: 100vw; height: 100vh">{}</textarea>
         </div>
-        <div class='tab-pane fade' id='generate-data' role="tabpanel" aria-labelledby="generate-data">
-            <div class="row justify-content-center">
+        <div class='tab-pane fade' id='generate-data' role="tabpanel" aria-labelledby="generate-data" style='text-align: center'>
+            <div>
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-csharp">C#</button>
-                <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-typescript">Typescript</button>
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-rust">Rust</button>
             </div>
             <textarea readonly id='generated-content'></textarea>
