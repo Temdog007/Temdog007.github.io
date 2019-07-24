@@ -1,0 +1,21 @@
+#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+pub struct Controller {
+    controller_type: [u8; 10],
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+pub struct Position {
+    x: f32,
+    y: f32,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+pub struct Texture {
+    texture_file_path: [u8; 10],
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+pub struct Velocity {
+    x: f32,
+    y: f32,
+}

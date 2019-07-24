@@ -1,0 +1,8 @@
+#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+pub struct Player {
+    id: u32,
+    controller: Controller,
+    velocity: Velocity,
+    texture: Texture,
+    position: Position,
+}

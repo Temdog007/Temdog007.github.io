@@ -1,0 +1,34 @@
+pub trait GameLogic {
+    fn control_player(&self, game_state: &GameState) -> GameStateModifications;
+    fn draw_player(&self, game_state: &GameState) -> GameStateModifications;
+    fn move_player(&self, game_state: &GameState) -> GameStateModifications;
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct GameState {
+    state: u8,
+    control_player_state: u8,
+    draw_player_state: u8,
+    move_player_state: u8,
+
+    players: HashMap<u32, Player>,
+}
+
+pub enum GameStateModification {
+    None,
+    AddPlayer(Player),
+    RemovePlayer(u32),
+    SetState(u8),
+    SetControlPlayerState(u8),
+    SetDrawPlayerState(u8),
+    SetMovePlayerState(u8),
+    ChangePlayerPosition(u32, Position),
+    ChangePlayerVelocity(u32, Velocity),
+    ChangePlayerTexture(u32, Texture),
+    ChangePlayerController(u32, Controller),
+}
+
+pub enum GameStateModifications {
+    Modifications(Vec<GameStateModification>),
+    None,
+}

@@ -1,17 +1,17 @@
 const storageKey = "g-arch";
 
 const exampleArchitecture = {
-    components : [
+    components: [
         {
-            name : "position",
+            name: "position",
             properties: [
                 {
-                    name : "x",
-                    type : "float"
+                    name: "x",
+                    type: "float"
                 },
                 {
                     name: "y",
-                    type : "float"
+                    type: "float"
                 }
             ]
         },
@@ -19,72 +19,72 @@ const exampleArchitecture = {
             name: "velocity",
             properties: [
                 {
-                    name : "x",
-                    type : "float"
+                    name: "x",
+                    type: "float"
                 },
                 {
-                    name : "y",
-                    type : "float"
+                    name: "y",
+                    type: "float"
                 }
             ]
         },
         {
-            name : "controller",
-            properties : [
+            name: "controller",
+            properties: [
                 {
-                    name : "controllerType",
-                    type : "char",
-                    isArray : true,
-                    length : 10
+                    name: "controllerType",
+                    type: "char",
+                    isArray: true,
+                    length: 10
                 }
             ]
         },
         {
-            name : "texture",
-            properties : [
+            name: "texture",
+            properties: [
                 {
-                    name : "textureFilePath",
-                    type : "char",
-                    isArray : true,
-                    length : 10
+                    name: "textureFilePath",
+                    type: "char",
+                    isArray: true,
+                    length: 10
                 }
             ]
         }
     ],
-    families : [
+    families: [
         {
-            name : "movable",
-            components : [
+            name: "movable",
+            components: [
                 "position",
                 "velocity"
             ]
         },
         {
-            name : "drawable",
-            components : [
+            name: "drawable",
+            components: [
                 "position",
                 "texture"
             ]
         },
         {
-            name : "controllable",
-            components : [
+            name: "controllable",
+            components: [
                 "velocity",
                 "controller"
             ]
         }
     ],
-    entities : [
+    entities: [
         {
-            name : "player",
-            families : [
+            name: "player",
+            families: [
                 "movable",
                 "drawable",
                 "controllable"
             ]
         }
     ],
-    systems : [
+    systems: [
         "controlPlayer",
         "movePlayer",
         "drawPlayer"
@@ -106,12 +106,9 @@ const typeOptions = [
     'double'
 ];
 
-class Component
-{
-    constructor(name)
-    {
-        if(typeof name != "string" || !name)
-        {
+class Component {
+    constructor(name) {
+        if (typeof name != "string" || !name) {
             throw new Error("Must enter a name");
         }
         this.name = name;
@@ -121,15 +118,12 @@ class Component
     }
 }
 
-function hasArray(component)
-{
+function hasArray(component) {
     return component.properties.some(p => p.isArray === true);
 }
 
-class Property 
-{
-    constructor(name, type, isArray)
-    {
+class Property {
+    constructor(name, type, isArray) {
         this.name = name || 'property';
         this.type = type || 'int';
         this.isArray = isArray || false;
@@ -138,55 +132,48 @@ class Property
 
 update();
 
-function update()
-{
+function update() {
     updateComponentsModel();
     updateFamiliesModel();
     updateEntitiesModel();
     updateSystemModel();
 }
 
-$("#systems-button").click(() => 
-{
+$("#systems-button").click(() => {
     architecture.systems.push(`System${architecture.systems.length}`);
 
     updateSystemModel();
 });
 
-$("#components-button").click(() =>
-{
+$("#components-button").click(() => {
     const component = new Component(`Component${architecture.components.length}`);
     architecture.components.push(component);
 
     updateComponentsModel();
 });
 
-$("#entities-button").click(() =>
-{
+$("#entities-button").click(() => {
     const entity = {
-        name : `Entity${architecture.entities.length}`,
-        families : []
+        name: `Entity${architecture.entities.length}`,
+        families: []
     };
     architecture.entities.push(entity);
 
     updateEntitiesModel();
 });
 
-$("#families-button").click(() =>
-{
+$("#families-button").click(() => {
     const family = {
-        name : `Family${architecture.families.length}`,
-        components : []
+        name: `Family${architecture.families.length}`,
+        components: []
     };
     architecture.families.push(family);
 
     updateFamiliesModel();
 });
 
-function updateInput(evt)
-{
-    if(!evt.target)
-    {
+function updateInput(evt) {
+    if (!evt.target) {
         return;
     }
 
@@ -194,15 +181,13 @@ function updateInput(evt)
     const family = evt.target.family;
     const entity = evt.target.entity;
     const system = evt.target.system;
-    if(!comp && !family && !entity && !system)
-    {
+    if (!comp && !family && !entity && !system) {
         return;
     }
 
     const t = $(evt.target);
 
-    switch(t.attr('target'))
-    {
+    switch (t.attr('target')) {
         case 'family-name':
             family.name = t.val();
             break;
@@ -227,20 +212,17 @@ function updateInput(evt)
         default:
             return;
     }
-    
+
     updateComponentsModel();
 }
 
-function addProperty(evt)
-{
+function addProperty(evt) {
     const t = evt.target;
-    if(t !== this)
-    {
+    if (t !== this) {
         return;
     }
 
-    if(!t.component)
-    {
+    if (!t.component) {
         return;
     }
 
@@ -248,28 +230,23 @@ function addProperty(evt)
     updateComponentsModel();
 }
 
-function deleteProperty(evt)
-{
+function deleteProperty(evt) {
     const t = evt.target;
-    if(t !== this)
-    {
+    if (t !== this) {
         return;
     }
 
-    if(!t.component)
-    {
+    if (!t.component) {
         return;
     }
 
     const index = $(t).attr("index");
     const prop = t.component.properties[index];
-    if(!prop)
-    {
+    if (!prop) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${prop.name}' property?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${prop.name}' property?`)) {
         return;
     }
 
@@ -277,21 +254,17 @@ function deleteProperty(evt)
     updateComponentsModel();
 }
 
-function deleteComponent(evt)
-{
+function deleteComponent(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.component)
-    {
+    if (!t.component) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.component.name}' component?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.component.name}' component?`)) {
         return;
     }
 
@@ -299,22 +272,18 @@ function deleteComponent(evt)
     updateComponentsModel();
 }
 
-function addComponentToFamily(evt)
-{
+function addComponentToFamily(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.family)
-    {
+    if (!t.family) {
         return;
     }
 
     const components = t.family.components;
-    if(components.includes(t.innerHTML))
-    {
+    if (components.includes(t.innerHTML)) {
         return;
     }
 
@@ -323,21 +292,17 @@ function addComponentToFamily(evt)
     updateFamiliesModel();
 }
 
-function deleteComponentFromFamily(evt)
-{
+function deleteComponentFromFamily(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.family)
-    {
+    if (!t.family) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.componentName}' component from this family?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.componentName}' component from this family?`)) {
         return;
     }
 
@@ -347,22 +312,18 @@ function deleteComponentFromFamily(evt)
     updateFamiliesModel();
 }
 
-function addFamilyToEntity(evt)
-{
+function addFamilyToEntity(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.entity)
-    {
+    if (!t.entity) {
         return;
     }
 
     const families = t.entity.families;
-    if(families.includes(t.innerHTML))
-    {
+    if (families.includes(t.innerHTML)) {
         return;
     }
 
@@ -371,21 +332,17 @@ function addFamilyToEntity(evt)
     updateEntitiesModel();
 }
 
-function deleteFamilyFromEntity(evt)
-{
+function deleteFamilyFromEntity(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.entity)
-    {
+    if (!t.entity) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.familyName}' family from this entity?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.familyName}' family from this entity?`)) {
         return;
     }
 
@@ -395,44 +352,36 @@ function deleteFamilyFromEntity(evt)
     updateEntitiesModel();
 }
 
-function addParameterToSystem(evt)
-{
+function addParameterToSystem(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.system)
-    {
+    if (!t.system) {
         return;
     }
 
     const parameters = t.system.parameters;
-    if(parameters.includes(t.innerHTML))
-    {
+    if (parameters.includes(t.innerHTML)) {
         return;
-    } 
+    }
 
     parameters.push(t.innerHTML);
     updateSystemModel();
 }
 
-function deleteParameterFromSystem(evt)
-{
+function deleteParameterFromSystem(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.system)
-    {
+    if (!t.system) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.parameter}' parameter from this system?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.parameter}' parameter from this system?`)) {
         return;
     }
 
@@ -442,21 +391,17 @@ function deleteParameterFromSystem(evt)
     updateSystemModel();
 }
 
-function deleteEntity(evt)
-{
+function deleteEntity(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.entity)
-    {
+    if (!t.entity) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.entity.name}' entity?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.entity.name}' entity?`)) {
         return;
     }
 
@@ -464,21 +409,17 @@ function deleteEntity(evt)
     updateEntitiesModel();
 }
 
-function deleteFamily(evt)
-{
+function deleteFamily(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.family)
-    {
+    if (!t.family) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.family.name}' family?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.family.name}' family?`)) {
         return;
     }
 
@@ -486,21 +427,17 @@ function deleteFamily(evt)
     updateFamiliesModel();
 }
 
-function deleteSystem(evt)
-{
+function deleteSystem(evt) {
     const t = evt.target;
-    if(!t)
-    {
+    if (!t) {
         return;
     }
 
-    if(!t.system)
-    {
+    if (!t.system) {
         return;
     }
 
-    if(!confirm(`Are you sure you want to delete the '${t.system}' system?`))
-    {
+    if (!confirm(`Are you sure you want to delete the '${t.system}' system?`)) {
         return;
     }
 
@@ -508,16 +445,13 @@ function deleteSystem(evt)
     updateSystemModel();
 }
 
-function updateComponentsModel()
-{
+function updateComponentsModel() {
     const div = document.getElementById("components-list");
-    while(div.hasChildNodes())
-    {
+    while (div.hasChildNodes()) {
         div.lastChild.remove();
     }
 
-    for(const comp of architecture.components)
-    {
+    for (const comp of architecture.components) {
         const compDiv = document.createElement("div");
         compDiv.setAttribute("class", "component-div p-2");
         div.appendChild(compDiv);
@@ -535,8 +469,7 @@ function updateComponentsModel()
         topRow.appendChild(input);
 
         const properties = comp.properties;
-        for(let i = 0; i < properties.length; ++i)
-        {
+        for (let i = 0; i < properties.length; ++i) {
             const prop = properties[i];
 
             const table = document.createElement("div");
@@ -578,8 +511,7 @@ function updateComponentsModel()
             select.component = comp;
             table.appendChild(select);
 
-            for(const option of typeOptions)
-            {
+            for (const option of typeOptions) {
                 const o = document.createElement("option");
                 o.innerHTML = option;
                 select.appendChild(o);
@@ -597,8 +529,8 @@ function updateComponentsModel()
             table.appendChild(del);
         }
 
-        $('input', $(compDiv)).each((_, t) =>  $(t).change(updateInput));
-        $('select', $(compDiv)).each((_, t) =>  $(t).change(updateInput));
+        $('input', $(compDiv)).each((_, t) => $(t).change(updateInput));
+        $('select', $(compDiv)).each((_, t) => $(t).change(updateInput));
 
         const bottomRow = document.createElement("div");
         bottomRow.setAttribute("class", "row");
@@ -620,20 +552,17 @@ function updateComponentsModel()
         del.innerHTML = "Delete Component";
         bottomRow.appendChild(del);
     }
-    
+
     save();
 }
 
-function updateFamiliesModel()
-{
+function updateFamiliesModel() {
     const div = document.getElementById("families-list");
-    while(div.hasChildNodes())
-    {
+    while (div.hasChildNodes()) {
         div.lastChild.remove();
     }
 
-    for(const family of architecture.families)
-    {
+    for (const family of architecture.families) {
         const familyDiv = document.createElement("div");
         familyDiv.setAttribute("class", "family-div p-2");
         div.appendChild(familyDiv);
@@ -650,10 +579,9 @@ function updateFamiliesModel()
         input.value = family.name;
         topRow.appendChild(input);
 
-        $('input', $(familyDiv)).each((_, t) =>  $(t).change(updateInput));
+        $('input', $(familyDiv)).each((_, t) => $(t).change(updateInput));
 
-        for(const componentName of family.components)
-        {
+        for (const componentName of family.components) {
             const row = document.createElement("div");
             row.setAttribute("class", "row");
             familyDiv.appendChild(row);
@@ -695,8 +623,7 @@ function updateFamiliesModel()
         items.setAttribute("aria-labelledby", `${family.name}dropdown`);
         dropdown.appendChild(items);
 
-        for(const comp of architecture.components)
-        {
+        for (const comp of architecture.components) {
             const a = document.createElement('button');
             a.setAttribute("class", "dropdown-item");
             a.setAttribute("type", "button");
@@ -718,16 +645,13 @@ function updateFamiliesModel()
     save();
 }
 
-function updateEntitiesModel()
-{
+function updateEntitiesModel() {
     const div = document.getElementById("entities-list");
-    while(div.hasChildNodes())
-    {
+    while (div.hasChildNodes()) {
         div.lastChild.remove();
     }
 
-    for(const entity of architecture.entities)
-    {
+    for (const entity of architecture.entities) {
         const entityDiv = document.createElement("div");
         entityDiv.setAttribute("class", "entity-div p-2");
         div.appendChild(entityDiv);
@@ -744,10 +668,9 @@ function updateEntitiesModel()
         input.value = entity.name;
         topRow.appendChild(input);
 
-        $('input', $(entityDiv)).each((_, t) =>  $(t).change(updateInput));
+        $('input', $(entityDiv)).each((_, t) => $(t).change(updateInput));
 
-        for(const familyName of entity.families)
-        {
+        for (const familyName of entity.families) {
             const row = document.createElement("div");
             row.setAttribute("class", "row");
             entityDiv.appendChild(row);
@@ -789,8 +712,7 @@ function updateEntitiesModel()
         items.setAttribute("aria-labelledby", `${entity.name}dropdown`);
         dropdown.appendChild(items);
 
-        for(const family of architecture.families)
-        {
+        for (const family of architecture.families) {
             const a = document.createElement('button');
             a.setAttribute("class", "dropdown-item");
             a.setAttribute("type", "button");
@@ -812,16 +734,13 @@ function updateEntitiesModel()
     save();
 }
 
-function updateSystemModel()
-{
+function updateSystemModel() {
     const div = document.getElementById("systems-list");
-    while(div.hasChildNodes())
-    {
+    while (div.hasChildNodes()) {
         div.lastChild.remove();
     }
 
-    for(const system of architecture.systems)
-    {
+    for (const system of architecture.systems) {
         const systemDiv = document.createElement("div");
         systemDiv.setAttribute("class", "system-div p-2");
         div.appendChild(systemDiv);
@@ -838,7 +757,7 @@ function updateSystemModel()
         input.value = system;
         topRow.appendChild(input);
 
-        $('input', $(systemDiv)).each((_, t) =>  $(t).change(updateInput));
+        $('input', $(systemDiv)).each((_, t) => $(t).change(updateInput));
 
         const bottomRow = document.createElement("div");
         bottomRow.setAttribute("class", "row");
@@ -860,42 +779,35 @@ function updateSystemModel()
     save();
 }
 
-function save()
-{
+function save() {
     const str = JSON.stringify(architecture, undefined, 2);
     localStorage.setItem(storageKey, str);
     $("#json-content").html(str);
 }
 
-document.getElementById("fullJsonExample").innerHTML = JSON.stringify(exampleArchitecture,  undefined, 2);
+document.getElementById("fullJsonExample").innerHTML = JSON.stringify(exampleArchitecture, undefined, 2);
 
-function handleResponse(response, id)
-{
-    if(response.readyState === 4)
-    {
-        if(response.status === 200 || response.status == 0)
-        {
+function handleResponse(response, id) {
+    if (response.readyState === 4) {
+        if (response.status === 200 || response.status == 0) {
             document.getElementById(id).innerHTML = response.responseText;
         }
-        else
-        {
+        else {
             console.error(response);
         }
     }
 }
 
-function updateSize()
-{
-    $("textarea").each(function(_, t){
+function updateSize() {
+    $("textarea").each(function (_, t) {
         const matches = $(t).val().match(/\n/g);
         $(t).attr('rows', matches ? matches.length : 2);
-    });    
+    });
 }
 
 const yamlFile = new XMLHttpRequest();
 yamlFile.open("GET", "/g-arch/examples/yaml/yaml-example.yaml", true);
-yamlFile.onreadystatechange = function()
-{
+yamlFile.onreadystatechange = function () {
     handleResponse(yamlFile, "fullYamlExample");
     updateSize();
 }
@@ -903,8 +815,7 @@ yamlFile.send(null);
 
 const csharpComponents = new XMLHttpRequest();
 csharpComponents.open("GET", "/g-arch/examples/csharp/components.txt", true);
-csharpComponents.onreadystatechange = function()
-{
+csharpComponents.onreadystatechange = function () {
     handleResponse(csharpComponents, "csharp-components-example");
     updateSize();
 }
@@ -912,8 +823,7 @@ csharpComponents.send(null);
 
 const csharpEntities = new XMLHttpRequest();
 csharpEntities.open("GET", "/g-arch/examples/csharp/entities.txt", true);
-csharpEntities.onreadystatechange = function()
-{
+csharpEntities.onreadystatechange = function () {
     handleResponse(csharpEntities, "csharp-entities-example");
     updateSize();
 }
@@ -921,8 +831,7 @@ csharpEntities.send(null);
 
 const csharpFamilies = new XMLHttpRequest();
 csharpFamilies.open("GET", "/g-arch/examples/csharp/families.txt", true);
-csharpFamilies.onreadystatechange = function()
-{
+csharpFamilies.onreadystatechange = function () {
     handleResponse(csharpFamilies, "csharp-families-example");
     updateSize();
 }
@@ -930,8 +839,7 @@ csharpFamilies.send(null);
 
 const csharpSystems = new XMLHttpRequest();
 csharpSystems.open("GET", "/g-arch/examples/csharp/systems.txt", true);
-csharpSystems.onreadystatechange = function()
-{
+csharpSystems.onreadystatechange = function () {
     handleResponse(csharpSystems, "csharp-systems-example");
     updateSize();
 }
@@ -939,16 +847,60 @@ csharpSystems.send(null);
 
 const csharpMisc = new XMLHttpRequest();
 csharpMisc.open("GET", "/g-arch/examples/csharp/misc.txt", true);
-csharpMisc.onreadystatechange = function()
-{
+csharpMisc.onreadystatechange = function () {
     handleResponse(csharpMisc, "csharp-misc-example");
     updateSize();
 }
 csharpMisc.send(null);
 
-$("#generate-csharp").click(function()
-{
+$("#generate-csharp").click(function () {
     $("#generated-content").val(generateCSharp(architecture).join("\n"));
     updateSize();
 });
+
+const rustComponents = new XMLHttpRequest();
+rustComponents.open("GET", "/g-arch/examples/rust/components.txt", true);
+rustComponents.onreadystatechange = function () {
+    handleResponse(rustComponents, "rust-components-example");
+    updateSize();
+}
+rustComponents.send(null);
+
+const rustEntities = new XMLHttpRequest();
+rustEntities.open("GET", "/g-arch/examples/rust/entities.txt", true);
+rustEntities.onreadystatechange = function () {
+    handleResponse(rustEntities, "rust-entities-example");
+    updateSize();
+}
+rustEntities.send(null);
+
+const rustFamilies = new XMLHttpRequest();
+rustFamilies.open("GET", "/g-arch/examples/rust/families.txt", true);
+rustFamilies.onreadystatechange = function () {
+    handleResponse(rustFamilies, "rust-families-example");
+    updateSize();
+}
+rustFamilies.send(null);
+
+const rustSystems = new XMLHttpRequest();
+rustSystems.open("GET", "/g-arch/examples/rust/systems.txt", true);
+rustSystems.onreadystatechange = function () {
+    handleResponse(rustSystems, "rust-systems-example");
+    updateSize();
+}
+rustSystems.send(null);
+
+const rustMisc = new XMLHttpRequest();
+rustMisc.open("GET", "/g-arch/examples/rust/implementations.txt", true);
+rustMisc.onreadystatechange = function () {
+    handleResponse(rustMisc, "rust-misc-example");
+    updateSize();
+}
+rustMisc.send(null);
+
+$("#generate-rust").click(function () {
+    // $("generate-content").valu(generateRust(architecture).join("\n"));
+    updateSize();
+});
+
 $("#generated-content").val("");

@@ -3,16 +3,24 @@
 <title>G-Arch</title>
 
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="/main.css" rel="stylesheet" />
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script src="generation/csharp-generation.js"></script>
     <script async src="g-arch.js" type="application/javascript"></script>
 </head>
@@ -22,67 +30,90 @@
         <h1>Game ARCHitecture (G-ARCH)</h1>
         <ul class="nav nav-tabs nav-fill" id="myTabs" role="tablist" style="background-color: var(--theme-color3)">
             <li class="nav-item">
-                <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about-data" role="tab" aria-controls="about-data" aria-selected="true">About</a>
+                <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about-data" role="tab"
+                    aria-controls="about-data" aria-selected="true">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="components-tab" data-toggle="tab" href="#components-data" role="tab" aria-controls="components-data" aria-selected="true">Components</a>
+                <a class="nav-link" id="components-tab" data-toggle="tab" href="#components-data" role="tab"
+                    aria-controls="components-data" aria-selected="true">Components</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab" aria-controls="families-data" aria-selected="false">Families</a>
+                <a class="nav-link" id="families-tab" data-toggle="tab" href="#families-data" role="tab"
+                    aria-controls="families-data" aria-selected="false">Families</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities-data" role="tab" aria-controls="entities-data" aria-selected="false">Entities</a>
+                <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities-data" role="tab"
+                    aria-controls="entities-data" aria-selected="false">Entities</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="systems-tab" data-toggle="tab" href="#system-data" role="tab" aria-controls="system-data" aria-selected="false">Systems</a>
+                <a class="nav-link" id="systems-tab" data-toggle="tab" href="#system-data" role="tab"
+                    aria-controls="system-data" aria-selected="false">Systems</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="json-tab" data-toggle="tab" href="#json-data" role="tab" aria-controls="json-data" aria-selected="false">Json</a>
+                <a class="nav-link" id="json-tab" data-toggle="tab" href="#json-data" role="tab"
+                    aria-controls="json-data" aria-selected="false">Json</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="generate-tab" data-toggle="tab" href="#generate-data" role="tab" aria-controls="generate-data" aria-selected="false">Generate</a>
+                <a class="nav-link" id="generate-tab" data-toggle="tab" href="#generate-data" role="tab"
+                    aria-controls="generate-data" aria-selected="false">Generate</a>
             </li>
         </ul>
     </div>
     <div class='tab-content'>
-        <div class='tab-pane fade show active' id='about-data' role="tabpanel" aria-labelledby="about-tab" style="background-color: var(--theme-color1)">
-            <h2>G-Arch is a tool designed to help aid in game architecture structure. This tool assumes that an entity component system will be used.</h2>
+        <div class='tab-pane fade show active' id='about-data' role="tabpanel" aria-labelledby="about-tab"
+            style="background-color: var(--theme-color1)">
+            <h2>G-Arch is a tool designed to help aid in game architecture structure. This tool assumes that an entity
+                component system will be used.</h2>
             <hr class="my-4">
             <div class="row">
                 <div class='col-md-auto'>
                     <h2 class='display-5'>How to use</h2>
                     <ul class="nav nav-tabs nav-justified flex-column" id="myTabs2" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="components-help-tab" data-toggle="tab" href="#components-help" role="tab" aria-controls="components-help" aria-selected="true">Components</a>
+                            <a class="nav-link active" id="components-help-tab" data-toggle="tab"
+                                href="#components-help" role="tab" aria-controls="components-help"
+                                aria-selected="true">Components</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="families-help-tab" data-toggle="tab" href="#families-help" role="tab" aria-controls="families-help" aria-selected="false">Families</a>
+                            <a class="nav-link" id="families-help-tab" data-toggle="tab" href="#families-help"
+                                role="tab" aria-controls="families-help" aria-selected="false">Families</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="entities-help-tab" data-toggle="tab" href="#entities-help" role="tab" aria-controls="entities-help" aria-selected="false">Entities</a>
+                            <a class="nav-link" id="entities-help-tab" data-toggle="tab" href="#entities-help"
+                                role="tab" aria-controls="entities-help" aria-selected="false">Entities</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="systems-help-tab" data-toggle="tab" href="#systems-help" role="tab" aria-controls="systems-help" aria-selected="false">Systems</a>
+                            <a class="nav-link" id="systems-help-tab" data-toggle="tab" href="#systems-help" role="tab"
+                                aria-controls="systems-help" aria-selected="false">Systems</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="json-example-help-tab" data-toggle="tab" href="#json-example-help" role="tab" aria-controls="json-example-help" aria-selected="false">Json Example</a>
+                            <a class="nav-link" id="json-example-help-tab" data-toggle="tab" href="#json-example-help"
+                                role="tab" aria-controls="json-example-help" aria-selected="false">Json Example</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="yaml-example-help-tab" data-toggle="tab" href="#yaml-example-help" role="tab" aria-controls="yaml-example-help" aria-selected="false">YAML Example</a>
+                            <a class="nav-link" id="yaml-example-help-tab" data-toggle="tab" href="#yaml-example-help"
+                                role="tab" aria-controls="yaml-example-help" aria-selected="false">YAML Example</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="="true" aria-expanded="false">Code Generation Examples</a>
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="=" true" aria-expanded="false">Code Generation Examples</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" id="csharp-example-tab" data-toggle="tab" href="#csharp-example-help" aria-controls="csharp-example-help" aria-selected="false">C#</a>
-                                <a class="dropdown-item" id="rust-example-tab" data-toggle="tab" href="#rust-example-help" aria-controls="rust-example-help" aria-selected="false">Rust</a>
+                                <a class="dropdown-item" id="csharp-example-tab" data-toggle="tab"
+                                    href="#csharp-example-help" aria-controls="csharp-example-help"
+                                    aria-selected="false">C#</a>
+                                <a class="dropdown-item" id="rust-example-tab" data-toggle="tab"
+                                    href="#rust-example-help" aria-controls="rust-example-help"
+                                    aria-selected="false">Rust</a>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class='tab-content col'>
-                    <div class='tab-pane fade active show' id='components-help' role='tabpanel' aria-labelledby="components-help-tab">
+                    <div class='tab-pane fade active show' id='components-help' role='tabpanel'
+                        aria-labelledby="components-help-tab">
                         <p class="lead">A component is a set of data.</p>
-                        <p>Example: A position component that represents an entity's position a 2D game will have two numbers to represent the X and Y coordinate.</p>
+                        <p>Example: A position component that represents an entity's position a 2D game will have two
+                            numbers to represent the X and Y coordinate.</p>
 
                         <p>JSON Example</p>
                         <pre class="jsonExample">
@@ -114,8 +145,10 @@
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='families-help' role='tabpanel' aria-labelledby="families-help-tab">
-                        <p class="lead">A family is a set of components. If an entity belongs to a family, then it must have all of the components in the set.</p>
-                        <p>Example: Members of the 'movable' family will have a position component and a velocity component</p>
+                        <p class="lead">A family is a set of components. If an entity belongs to a family, then it must
+                            have all of the components in the set.</p>
+                        <p>Example: Members of the 'movable' family will have a position component and a velocity
+                            component</p>
 
                         <p>JSON Example</p>
                         <pre class="jsonExample">
@@ -137,8 +170,10 @@
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='entities-help' role='tabpanel' aria-labelledby="entities-help-tab">
-                        <p class="lead">An entity is a set of components that belongs to one or more families. The families that the entity belongs to defines which components it has.</p>
-                        <p>Example: The 'player' entity is a member of the 'movable', 'controllable', and 'drawable' families.</p>
+                        <p class="lead">An entity is a set of components that belongs to one or more families. The
+                            families that the entity belongs to defines which components it has.</p>
+                        <p>Example: The 'player' entity is a member of the 'movable', 'controllable', and 'drawable'
+                            families.</p>
 
                         <p>JSON Example</p>
                         <pre class="jsonExample">
@@ -162,7 +197,8 @@
                         </pre>
                     </div>
                     <div class='tab-pane fade' id='systems-help' role='tabpanel' aria-labelledby="systems-help-tab">
-                        <p class="lead">A system is a function that takes a game state and returns a game state modification. The call order is dependent on the position it is in the array.</p>
+                        <p class="lead">A system is a function that takes a game state and returns a game state
+                            modification. The call order is dependent on the position it is in the array.</p>
                         <p>NOTE: If using parallel code generation, order doesn't matter</p>
 
                         <p>JSON Example</p>
@@ -181,13 +217,16 @@
                             - drawPlayer
                         </pre>
                     </div>
-                    <div class='tab-pane fade' id='json-example-help' role='tabpanel' aria-labelledby="json-example-help-tab">
+                    <div class='tab-pane fade' id='json-example-help' role='tabpanel'
+                        aria-labelledby="json-example-help-tab">
                         <textarea readonly class="jsonExample" id="fullJsonExample"></textarea>
                     </div>
-                    <div class='tab-pane fade' id='yaml-example-help' role='tabpanel' aria-labelledby="yaml-example-help'">
+                    <div class='tab-pane fade' id='yaml-example-help' role='tabpanel'
+                        aria-labelledby="yaml-example-help'">
                         <textarea readonly class="yamlExample" id="fullYamlExample"></textarea>
                     </div>
-                    <div class="tab-pane fade" id="csharp-example-help" role="tabpanel" aria-labelledby="csharp-example-help">
+                    <div class="tab-pane fade" id="csharp-example-help" role="tabpanel"
+                        aria-labelledby="csharp-example-help">
                         <h1>C#</h1>
                         <h4>Components are structs</h4>
                         <textarea readonly class="jsonExample" id="csharp-components-example"></textarea>
@@ -196,37 +235,62 @@
                         <h4>Entities are structs</h4>
                         <textarea readonly class="jsonExample" id="csharp-entities-example"></textarea>
                         <h4>
-                            Systems are just functions that take a GameState and return a GameStateModifier. In C#, creating new object should be avoided. 
-                            So, a GameStateModifier will be passed to prevent allocation. System manager will contain all of the systems.
+                            Systems are just functions that take a GameState and return a GameStateModifier. In C#,
+                            creating new object should be avoided.
+                            So, a GameStateModifier will be passed to prevent allocation. System manager will contain
+                            all of the systems.
                         </h4>
                         <textarea readonly class="jsonExample" id="csharp-systems-example"></textarea>
                         <h4>Other created structures</h4>
                         <textarea readonly class="jsonExample" id="csharp-misc-example"></textarea>
                     </div>
-                    <div class="tab-pane fade" id="rust-example-help" role="tabpanel" aria-labelledby="rust-example-help">TODO...</div>
+                    <div class="tab-pane fade" id="rust-example-help" role="tabpanel"
+                        aria-labelledby="rust-example-help">
+                        <h1>Rust</h1>
+                        <h4>Components are structs</h4>
+                        <textarea readonly class="jsonExample" id="rust-components-example"></textarea>
+                        <h4>Families are traits</h4>
+                        <textarea readonly class="jsonExample" id="rust-families-example"></textarea>
+                        <h4>Entities are structs</h4>
+                        <textarea readonly class="jsonExample" id="rust-entities-example"></textarea>
+                        <h4>
+                            Systems are just functions that take a GameState and return a GameStateModification.
+                            GameStateModifications are defined based on the entities and components
+                            present in the architecture. A trait, called GameLogic, is used to define all of the systems
+                            of game.
+                        </h4>
+                        <textarea readonly class="jsonExample" id="rust-systems-example"></textarea>
+                        <h4>Implementations</h4>
+                        <textarea readonly class="jsonExample" id="rust-misc-example"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
         <div class='tab-pane fade' id="components-data" role="tabpanel" aria-labelledby="components-tab">
             <div id="components-list"></div>
-            <button class="btn btn-temware" type="button" id="components-button" style="background-color: var(--theme-color9)">Add Component</button>
+            <button class="btn btn-temware" type="button" id="components-button"
+                style="background-color: var(--theme-color9)">Add Component</button>
         </div>
         <div class='tab-pane fade' id="families-data" role="tabpanel" aria-labelledby="families-data">
             <div id="families-list"></div>
-            <button class="btn btn-temware" type="button" id="families-button" style="background-color: var(--theme-color8)">Add Family</button>
+            <button class="btn btn-temware" type="button" id="families-button"
+                style="background-color: var(--theme-color8)">Add Family</button>
         </div>
         <div class='tab-pane fade' id="entities-data" role="tabpanel" aria-labelledby="entities-data">
             <div id="entities-list"></div>
-            <button class="btn btn-temware" type="button" id="entities-button" style="background-color: var(--theme-color9)">Add Entity</button>
+            <button class="btn btn-temware" type="button" id="entities-button"
+                style="background-color: var(--theme-color9)">Add Entity</button>
         </div>
         <div class='tab-pane fade' id="system-data" role="tabpanel" aria-labelledby="systems-data">
             <div id="systems-list"></div>
-            <button class="btn btn-temware" type="button" id="systems-button" style="background-color: var(--theme-color8)">Add System</button>
+            <button class="btn btn-temware" type="button" id="systems-button"
+                style="background-color: var(--theme-color8)">Add System</button>
         </div>
         <div class='tab-pane fade' id='json-data' role="tabpanel" aria-labelledby="json-data">
             <textarea readonly id='json-content' style="width: 100vw; height: 100vh">{}</textarea>
         </div>
-        <div class='tab-pane fade' id='generate-data' role="tabpanel" aria-labelledby="generate-data" style='text-align: center'>
+        <div class='tab-pane fade' id='generate-data' role="tabpanel" aria-labelledby="generate-data"
+            style='text-align: center'>
             <div>
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-csharp">C#</button>
                 <button type="button" class="col-sm-1 btn btn-primary generateButton" id="generate-rust">Rust</button>
@@ -235,4 +299,5 @@
         </div>
     </div>
 </body>
+
 </html>

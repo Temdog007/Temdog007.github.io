@@ -1,0 +1,18 @@
+trait Identifiable {
+    fn id(&self) -> &u32;
+}
+
+pub trait Controllable : Identifiable {
+    fn controller(&self) -> &Controller;
+    fn velocity(&self) -> &Velocity;
+}
+
+pub trait Drawable : Identifiable {
+    fn position(&self) -> &Position;
+    fn texture(&self) -> &Texture;
+}
+
+pub trait Movable : Identifiable {
+    fn velocity(&self) -> &Velocity;
+    fn position(&self) -> &Position;
+}

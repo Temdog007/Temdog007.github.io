@@ -1,0 +1,141 @@
+fn handleModification(new_game_state: &mut GameState, m: &GameStateModification) {
+    match m {
+        GameStateModification::None => (),
+        GameStateModification::AddPlayer(player) => {
+            new_game_state.players.insert(player.id, player.clone());
+        }
+        GameStateModification::RemovePlayer(id) => {
+            new_game_state.players.remove(&id);
+        }
+        GameStateModification::ChangePlayerController(id, controller) => {
+            if new_game_state.players.contains_key(&id) {
+                new_game_state
+                    .players
+                    .get_mut(&id)
+                    .unwrap()
+                    .controller
+                    .clone_from(controller);
+            }
+        }
+        GameStateModification::ChangePlayerVelocity(id, velocity) => {
+            if new_game_state.players.contains_key(&id) {
+                new_game_state
+                    .players
+                    .get_mut(&id)
+                    .unwrap()
+                    .velocity
+                    .clone_from(velocity);
+            }
+        }
+        GameStateModification::ChangePlayerTexture(id, texture) => {
+            if new_game_state.players.contains_key(&id) {
+                new_game_state
+                    .players
+                    .get_mut(&id)
+                    .unwrap()
+                    .texture
+                    .clone_from(texture);
+            }
+        }
+        GameStateModification::ChangePlayerPosition(id, position) => {
+            if new_game_state.players.contains_key(&id) {
+                new_game_state
+                    .players
+                    .get_mut(&id)
+                    .unwrap()
+                    .position
+                    .clone_from(position);
+            }
+        }
+        GameStateModification::SetControlPlayerState(state) => {
+            new_game_state.control_player_state.clone_from(state);
+        }
+        GameStateModification::SetDrawPlayerState(state) => {
+            new_game_state.draw_player_state.clone_from(state);
+        }
+        GameStateModification::SetMovePlayerState(state) => {
+            new_game_state.move_player_state.clone_from(state);
+        }
+        GameStateModification::SetState(state) => {
+            new_game_state.state.clone_from(state);
+        }
+    }
+}
+
+pub fn update<T>(game_logic: &T, game_state: &GameState) -> GameState
+where
+    T: GameLogic,
+{
+    let bytes = bincode::serialize(&game_state).unwrap();
+    let mut new_game_state: GameState = bincode::deserialize(&bytes).unwrap();
+
+    let tasks = [
+        game_logic.control_player(&game_state),
+        game_logic.move_player(&game_state),
+        game_logic.draw_player(&game_state),
+    ];
+
+    for taskResult in &tasks {
+        match taskResult {
+            GameStateModifications::None => continue,
+            GameStateModifications::Modification(m) => handleModification(&mut new_game_state, &m),
+            GameStateModifications::Modifications(mods) => {
+                for m in mods.iter() {
+                    handleModification(&mut new_game_state, &m);
+                }
+            }
+        }
+    }
+
+    new_game_state
+}
+
+impl GameState {
+    pub fn new() -> GameState {
+        GameState {
+            state: 0u8,
+            control_player_state: 0u8,
+            draw_player_state: 0u8,
+            move_player_state: 0u8,
+            players: HashMap::new(),
+        }
+    }
+    pub fn state(&self) -> u8 {
+        self.state
+    }
+    pub fn control_player_state(&self) -> u8 {
+        self.control_player_state
+    }
+    pub fn draw_player_state(&self) -> u8 {
+        self.draw_player_state
+    }
+    pub fn move_player_state(&self) -> u8 {
+        self.move_player_state
+    }
+    pub fn controllables(&self) -> Vec<&Controllable> {
+        let mut map = Vec::new();
+        for (_, c) in self.players.iter() {
+            map.push(c as &Controllable);
+        }
+        map
+    }
+    pub fn drawables(&self) -> Vec<&Drawable> {
+        let mut map = Vec::new();
+        for (_, c) in self.players.iter() {
+            map.push(c as &Drawable);
+        }
+        map
+    }
+    pub fn movables(&self) -> Vec<&Movable> {
+        let mut map = Vec::new();
+        for (_, c) in self.players.iter() {
+            map.push(c as &Movable);
+        }
+        map
+    }
+    pub fn players(&self) -> &HashMap<u32, Player> {
+        &self.players
+    }
+}
+
+// And more
