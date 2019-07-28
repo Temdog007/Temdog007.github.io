@@ -106,10 +106,21 @@
                                     aria-selected="false">Rust</a>
                             </div>
                         </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link" id="rust-example-tab" data-toggle="tab" href="#rust-example-help"
-                                role="tab" aria-controls="rust-example-help" aria-selected="false">Rust Code
-                                Generation Example</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="true" aria-expanded="false">Rust Code Generation Examples</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" data-toggle="tab" href="#rust-example-components" role="tab"
+                                    aria-controls="rust-example-components" aria-selected="false">Components</a>
+                                <a class="dropdown-item" data-toggle="tab" href="#rust-example-families" role="tab"
+                                    aria-controls="rust-example-families" aria-selected="false">Families</a>
+                                <a class="dropdown-item" data-toggle="tab" href="#rust-example-entities" role="tab"
+                                    aria-controls="rust-example-entities" aria-selected="false">Entities</a>
+                                <a class="dropdown-item" data-toggle="tab" href="#rust-example-systems" role="tab"
+                                    aria-controls="rust-example-systems" aria-selected="false">Systems</a>
+                                <a class="dropdown-item" data-toggle="tab" href="#rust-example-misc" role="tab"
+                                    aria-controls="rust-example-misc" aria-selected="false">Misc</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -230,24 +241,46 @@
                         aria-labelledby="yaml-example-help'">
                         <textarea readonly class="yamlExample" id="fullYamlExample"></textarea>
                     </div>
-                    <div class="tab-pane fade" id="rust-example-help" role="tabpanel"
-                        aria-labelledby="rust-example-help">
-                        <h1>Rust</h1>
-                        <h4>Components are structs</h4>
-                        <textarea readonly class="jsonExample" id="rust-components-example"></textarea>
-                        <h4>Families are traits that expose their components</h4>
-                        <textarea readonly class="jsonExample" id="rust-families-example"></textarea>
-                        <h4>Entities are structs that implement a set of family traits</h4>
-                        <textarea readonly class="jsonExample" id="rust-entities-example"></textarea>
-                        <h4>
-                            Systems are just functions that take a GameState and return a GameStateModification.
-                            GameStateModifications are defined based on the entities and families that are
-                            present in the architecture. A trait, called GameLogic, is used to define all of the systems
-                            of game. Implement this trait to create your game.
-                        </h4>
-                        <textarea readonly class="jsonExample" id="rust-systems-example"></textarea>
-                        <h4>Implementations</h4>
-                        <textarea readonly class="jsonExample" id="rust-misc-example"></textarea>
+                    <div class="tab-pane fade" id="rust-example-components" role="tabpanel"
+                        aria-labelledby="rust-example-components">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Components are structs</h1>
+                            <textarea readonly class="jsonExample lead" id="rust-components-example"></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rust-example-families" role="tabpanel"
+                        aria-labelledby="rust-example-families">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Families are traits that expose their components</h1>
+                            <textarea readonly class="jsonExample lead" id="rust-families-example"></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rust-example-entities" role="tabpanel"
+                        aria-labelledby="rust-example-entities">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Entities are structs that implement a set of family traits</h1>
+                            <textarea readonly class="jsonExample lead" id="rust-entities-example"></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rust-example-systems" role="tabpanel"
+                        aria-labelledby="rust-example-systems">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Systems are just functions that take a GameState and return a
+                                GameStateModification.</h1>
+                            <p class="lead">GameStateModifications are defined based on the entities and families that
+                                are
+                                present in the architecture. A trait, called GameLogic, is used to define all of the
+                                systems
+                                of game. Implement this trait to create your game.</p>
+                            <textarea readonly class="jsonExample lead" id="rust-systems-example"></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="rust-example-misc" role="tabpanel"
+                        aria-labelledby="rust-example-misc">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Misc</h1>
+                            <textarea readonly class="jsonExample lead" id="rust-misc-example"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>

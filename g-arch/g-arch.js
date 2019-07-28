@@ -813,50 +813,50 @@ yamlFile.onreadystatechange = function () {
 }
 yamlFile.send(null);
 
-const csharpComponents = new XMLHttpRequest();
-csharpComponents.open("GET", "/g-arch/examples/csharp/components.txt", true);
-csharpComponents.onreadystatechange = function () {
-    handleResponse(csharpComponents, "csharp-components-example");
-    updateSize();
-}
-csharpComponents.send(null);
+// const csharpComponents = new XMLHttpRequest();
+// csharpComponents.open("GET", "/g-arch/examples/csharp/components.txt", true);
+// csharpComponents.onreadystatechange = function () {
+//     handleResponse(csharpComponents, "csharp-components-example");
+//     updateSize();
+// }
+// csharpComponents.send(null);
 
-const csharpEntities = new XMLHttpRequest();
-csharpEntities.open("GET", "/g-arch/examples/csharp/entities.txt", true);
-csharpEntities.onreadystatechange = function () {
-    handleResponse(csharpEntities, "csharp-entities-example");
-    updateSize();
-}
-csharpEntities.send(null);
+// const csharpEntities = new XMLHttpRequest();
+// csharpEntities.open("GET", "/g-arch/examples/csharp/entities.txt", true);
+// csharpEntities.onreadystatechange = function () {
+//     handleResponse(csharpEntities, "csharp-entities-example");
+//     updateSize();
+// }
+// csharpEntities.send(null);
 
-const csharpFamilies = new XMLHttpRequest();
-csharpFamilies.open("GET", "/g-arch/examples/csharp/families.txt", true);
-csharpFamilies.onreadystatechange = function () {
-    handleResponse(csharpFamilies, "csharp-families-example");
-    updateSize();
-}
-csharpFamilies.send(null);
+// const csharpFamilies = new XMLHttpRequest();
+// csharpFamilies.open("GET", "/g-arch/examples/csharp/families.txt", true);
+// csharpFamilies.onreadystatechange = function () {
+//     handleResponse(csharpFamilies, "csharp-families-example");
+//     updateSize();
+// }
+// csharpFamilies.send(null);
 
-const csharpSystems = new XMLHttpRequest();
-csharpSystems.open("GET", "/g-arch/examples/csharp/systems.txt", true);
-csharpSystems.onreadystatechange = function () {
-    handleResponse(csharpSystems, "csharp-systems-example");
-    updateSize();
-}
-csharpSystems.send(null);
+// const csharpSystems = new XMLHttpRequest();
+// csharpSystems.open("GET", "/g-arch/examples/csharp/systems.txt", true);
+// csharpSystems.onreadystatechange = function () {
+//     handleResponse(csharpSystems, "csharp-systems-example");
+//     updateSize();
+// }
+// csharpSystems.send(null);
 
-const csharpMisc = new XMLHttpRequest();
-csharpMisc.open("GET", "/g-arch/examples/csharp/misc.txt", true);
-csharpMisc.onreadystatechange = function () {
-    handleResponse(csharpMisc, "csharp-misc-example");
-    updateSize();
-}
-csharpMisc.send(null);
+// const csharpMisc = new XMLHttpRequest();
+// csharpMisc.open("GET", "/g-arch/examples/csharp/misc.txt", true);
+// csharpMisc.onreadystatechange = function () {
+//     handleResponse(csharpMisc, "csharp-misc-example");
+//     updateSize();
+// }
+// csharpMisc.send(null);
 
-$("#generate-csharp").click(function () {
-    $("#generated-content").val(generateCSharp(architecture).join("\n"));
-    updateSize();
-});
+// $("#generate-csharp").click(function () {
+//     $("#generated-content").val(generateCSharp(architecture).join("\n"));
+//     updateSize();
+// });
 
 const rustComponents = new XMLHttpRequest();
 rustComponents.open("GET", "/g-arch/examples/rust/components.txt", true);
