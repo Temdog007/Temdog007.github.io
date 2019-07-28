@@ -1,34 +1,16 @@
-pub trait GameLogic {
-    fn control_player(&self, game_state: &GameState) -> GameStateModifications;
-    fn draw_player(&self, game_state: &GameState) -> GameStateModifications;
-    fn move_player(&self, game_state: &GameState) -> GameStateModifications;
+pub trait GameLogic : Send + Sync + Clone + Copy {
+    fn control_player(&self, game_state: &GameState, duration : Duration) -> GameStateModification;
+    fn draw_player(&self, game_state: &GameState, duration : Duration) -> GameStateModification;
+    fn move_player(&self, game_state: &GameState, duration : Duration) -> GameStateModification;
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub struct GameState {
-    state: u8,
-    control_player_state: u8,
-    draw_player_state: u8,
-    move_player_state: u8,
+pub fn update<T>(game_logic: &T, game_state: &GameState, d : Duration) -> GameState
+where
+    T: GameLogic,
+{
+    let mut new_game_state: GameState = *game_state;
 
-    players: HashMap<u32, Player>,
-}
+    update_game_state(game_logic, game_state, &mut new_game_state, d);
 
-pub enum GameStateModification {
-    None,
-    AddPlayer(Player),
-    RemovePlayer(u32),
-    SetState(u8),
-    SetControlPlayerState(u8),
-    SetDrawPlayerState(u8),
-    SetMovePlayerState(u8),
-    ChangePlayerPosition(u32, Position),
-    ChangePlayerVelocity(u32, Velocity),
-    ChangePlayerTexture(u32, Texture),
-    ChangePlayerController(u32, Controller),
-}
-
-pub enum GameStateModifications {
-    Modifications(Vec<GameStateModification>),
-    None,
+    new_game_state
 }

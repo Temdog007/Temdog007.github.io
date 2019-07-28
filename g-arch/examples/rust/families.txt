@@ -1,18 +1,27 @@
-trait Identifiable {
-    fn id(&self) -> &u32;
+pub trait Identifiable { 
+    fn id(&self) -> usize;
 }
 
 pub trait Controllable : Identifiable {
-    fn controller(&self) -> &Controller;
-    fn velocity(&self) -> &Velocity;
+    fn get_controller(&self) -> &Controller;
+    fn set_controller(&mut self, c : Controller);
+
+    fn get_velocity(&self) -> &Velocity;
+    fn set_velocity(&mut self, v : Velocity);
 }
 
 pub trait Drawable : Identifiable {
-    fn position(&self) -> &Position;
-    fn texture(&self) -> &Texture;
+    fn get_position(&self) -> &Position;
+    fn set_position(&mut self, p : Position);
+
+    fn get_texture(&self) -> &Texture;
+    fn set_texture(&mut self, t : Texture);
 }
 
 pub trait Movable : Identifiable {
-    fn velocity(&self) -> &Velocity;
-    fn position(&self) -> &Position;
+    fn get_velocity(&self) -> &Velocity;
+    fn set_velocity(&mut self, v : Velocity);
+
+    fn get_position(&self) -> &Position;
+    fn set_position(&mut self, p : Position);
 }

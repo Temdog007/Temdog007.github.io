@@ -1,21 +1,25 @@
-#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Default)]
 pub struct Controller {
     controller_type: [u8; 10],
 }
+unsafe impl Sync for Controller {}
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Default)]
 pub struct Position {
-    x: f32,
-    y: f32,
+    pub x: f32,
+    pub y: f32,
 }
+unsafe impl Sync for Position {}
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Default)]
 pub struct Texture {
-    texture_file_path: [u8; 10],
+    pub texture_file_path: [u8; 10],
 }
+unsafe impl Sync for Texture {}
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone, Default)]
 pub struct Velocity {
-    x: f32,
-    y: f32,
+    pub x: f32,
+    pub y: f32,
 }
+unsafe impl Sync for Velocity {}

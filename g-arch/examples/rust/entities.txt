@@ -1,8 +1,80 @@
-#[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Player {
-    id: u32,
+    id: usize,
     controller: Controller,
     velocity: Velocity,
     texture: Texture,
-    position: Position,
+    position: Position
+}
+
+impl Player {
+    pub fn new() -> Player {
+        Player {
+            id: get_next_id(),
+            controller: Default::default(),
+            velocity: Default::default(),
+            position: Default::default(),
+            texture: Default::default(),
+            timer : Default::default()
+        }
+    }
+}
+
+unsafe impl Sync for Player {}
+
+impl Default for Player {
+    fn default() -> Self {
+        Player::new()
+    }
+}
+
+impl Identifiable for Player {
+    fn id(&self) -> usize {
+        self.id
+    }
+}
+
+impl Controllable for Player {
+    fn get_controller(&self) -> &Controller {
+        &self.controller
+    }
+    fn set_velocity(&mut self, v : Velocity) {
+        self.velocity = v
+    }
+    fn set_controller(&mut self, c : Controller) {
+        self.controller = c
+    }
+    fn get_velocity(&self) -> &Velocity {
+        &self.velocity
+    }
+}
+
+impl Drawable for Player {
+    fn get_position(&self) -> &Position {
+        &self.position
+    }
+    fn get_texture(&self) -> &Texture {
+        &self.texture
+    }
+    fn set_position(&mut self, p : Position) {
+        self.position = p
+    }
+    fn set_texture(&mut self, t: Texture) {
+        self.texture = t
+    }
+}
+
+impl Movable for Player {
+    fn get_position(&self) -> &Position {
+        &self.position
+    }
+    fn get_velocity(&self) -> &Velocity {
+        &self.velocity
+    }
+    fn set_position(&mut self, p : Position) {
+        self.position = p
+    }
+    fn set_velocity(&mut self, v : Velocity) {
+        self.velocity = v
+    }
 }
