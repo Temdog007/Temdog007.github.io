@@ -1,149 +1,41 @@
-
-* {
-    --theme-color1 : #efebe9;
-    --theme-color2 : #d7ccc8;
-    --theme-color3 : #bcaaa4;
-    --theme-color4 : #a1887f;
-    --theme-color5 : #8d6e63;
-    --theme-color6 : #795548;
-    --theme-color7 : #6d4c41;
-    --theme-color8 : #4e342e;
-    --theme-color9 : #3e2723;
+#title {
+    width: 100%;
+    text-align: center;
 }
 
-#myContent {
-    background-color: var(--theme-color2);
+#content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
-.tab-content * {
-    padding: 1vmin;
+#toc {
+    border-right: 1px solid black;
 }
 
-.tab-content b, .tab-content i, .tab-content u, .tab-content .row {
-    padding: 0;
+#description {
+    max-width: 100vw;
+    max-height: 75vh;
+    overflow: auto;
 }
 
-h1, h2, h3, p {
-    color: var(--theme-color9);
-    padding-bottom: 1vh;
-}
-
-h1 {
-    font-weight: bold;
-    text-align: center
-}
-
-form {
-    text-align: center
-}
-
-body {
-    background-color: var(--theme-color1);
-    padding-top: 1vh;
-}
-
-a, .nav-link, .nav-tabs .nav-item.show .nav-link {
-    color : black;
-}
-
-.nav-link {
-    padding: 1vmin;
-}
-
-a:focus, a:hover, .nav-link:hover {
-    color: var(--theme-color9);
-}
-
-.dropdown-item:hover {
-    background-color : var(--theme-color1);
-    color : var(--theme-color3);
-}
-
-.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link  {
-    color : var(--theme-color4);
-    background-color: var(--theme-color7);
+#title, #content, #toc, #description, .logo {
+    padding: 1vh 1vw;
 }
 
 img {
-    max-width: 10vw;
-    max-height: 10vh;
+    max-width: 25%;
+    max-height: 25%;
 }
 
-ul {
-    list-style-type: none
+.logo {
+    float: right;
 }
 
-#myTabs2, #myTabs2 li {
-    padding: 0;
-}
-
-iframe {
+body {
+    background: #EEEEEE;
     width: 100%;
-    height: 90vh;
-    display: block;
-    border: none;
-}
-
-input[type='submit']{
-    color: var(--theme-color7);
-    background-color: var(--theme-color1)
-}
-
-input[type='submit']:hover{
-    color: var(--theme-color1);
-    background-color: var(--theme-color9)
-}
-
-table, th, td {
-    border: 1vmin solid var(--theme-color7)
-}
-
-th {
-    background-color: var(--theme-color4)
-}
-
-td {
-    padding : 1vmin;
-}
-
-.btn-temware {
-    color: var(--theme-color4);
-    border-color: var(--theme-color5);
-    width: 100%;
-}
-
-.btn-temware:hover {
-    color: var(--theme-color1)
-}
-
-.component-div {
-    margin: 1vmin;
-}
-
-pre {
-    background-color: white;
-}
-
-.entity-name-text, .family-name-text, .system-name-text {
-    background-color: black;
-    color: white;
-}
-
-.jsonExample{
-    background-color: var(--theme-color2);
-    color: var(--theme-color7);
-}
-
-.yamlExample{
-    background-color: var(--theme-color3);
-    color: var(--theme-color9);
-}
-
-.generateButton{
-    margin-right : 1vw;
-}
-
-textarea {
-    width: 75vw;
-    resize :none;
+    height: 100%;
+    overflow: hidden;
 }
