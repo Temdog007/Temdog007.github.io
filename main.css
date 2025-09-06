@@ -39,3 +39,12 @@ body {
     height: 100%;
     overflow: hidden;
 }
+
+#selfie {
+    max-width: 10vmin;
+    max-height: 10vmin;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 1vh 1vw;
+}
